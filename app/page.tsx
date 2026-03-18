@@ -643,7 +643,9 @@ export default function Home() {
         background:
           "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
       }}
-    > <div
+    >
+      {" "}
+      <div
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -756,7 +758,6 @@ export default function Home() {
           </div>
         )}
       </div>
-
       <div
         style={{
           borderRadius: "32px",
@@ -765,7 +766,7 @@ export default function Home() {
           textAlign: "center",
           border: "1px solid rgba(250,204,21,0.18)",
           background:
-          "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.85)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
+            "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.85)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
           boxShadow: "0 30px 60px rgba(0,0,0,0.35)",
         }}
       >
@@ -830,7 +831,6 @@ export default function Home() {
           </div>
         )}
       </div>
-
       <div
         style={{
           display: "flex",
@@ -881,7 +881,6 @@ export default function Home() {
           );
         })}
       </div>
-
       {screen === "partidos" && (
         <div style={{ display: "grid", gap: "16px" }}>
           {sortedMatches.length === 0 ? (
@@ -908,7 +907,8 @@ export default function Home() {
                   style={{
                     border: "1px solid rgba(255,255,255,0.08)",
                     padding: "18px",
-                    background: "repeating-linear-gradient(90deg, #14532d 0px, #14532d 40px, #166534 40px, #166534 80px)",
+                    background:
+                      "repeating-linear-gradient(90deg, #14532d 0px, #14532d 40px, #166534 40px, #166534 80px)",
                     borderRadius: "22px",
                     boxShadow: "0 16px 36px rgba(0,0,0,0.18)",
                   }}
@@ -1557,7 +1557,6 @@ export default function Home() {
           )}
         </div>
       )}
-
       {screen === "goleadores" && (
         <div
           style={{
@@ -1684,7 +1683,6 @@ export default function Home() {
           </div>
         </div>
       )}
-
       {screen === "plantel" && (
         <div
           style={{
@@ -1755,7 +1753,6 @@ export default function Home() {
           </div>
         </div>
       )}
-
       {viewer && (
         <Lightbox
           images={viewer.images}

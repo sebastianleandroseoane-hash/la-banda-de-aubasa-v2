@@ -169,9 +169,16 @@ function formatDate(date: string) {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<
-    "partidos" | "estadisticas" | "plantel"
-  >("partidos");
+  const [screen, setScreen] = useState<
+    | "inicio"
+    | "tabla"
+    | "fixture"
+    | "goleadores"
+    | "partidos"
+    | "plantel"
+    | "videos"
+    | "galeria"
+  >("inicio");
 
   const [matches, setMatches] = useState<MatchRow[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -752,391 +759,129 @@ export default function Home() {
       </div>
 
       <div
-  style={{
-    borderRadius: "32px",
-    padding: "40px 24px",
-    marginBottom: "24px",
-    textAlign: "center",
-    border: "1px solid rgba(250,204,21,0.18)",
-    background:
-      "linear-gradient(135deg, #0f172a 0%, #111827 50%, #0b1220 100%)",
-    boxShadow: "0 30px 60px rgba(0,0,0,0.35)",
-  }}
->
-  <img
-    src="/escudo.png"
-    alt="Escudo La Banda de Aubasa"
-    style={{
-      width: "120px",
-      marginBottom: "16px",
-    }}
-  />
+        style={{
+          borderRadius: "32px",
+          padding: "40px 24px",
+          marginBottom: "24px",
+          textAlign: "center",
+          border: "1px solid rgba(250,204,21,0.18)",
+          background:
+            "linear-gradient(135deg, #0f172a 0%, #111827 50%, #0b1220 100%)",
+          boxShadow: "0 30px 60px rgba(0,0,0,0.35)",
+        }}
+      >
+        <img
+          src="/escudo.png"
+          alt="Escudo La Banda de Aubasa"
+          style={{
+            width: "120px",
+            marginBottom: "16px",
+          }}
+        />
 
-  <h1
-    style={{
-      margin: 0,
-      fontSize: "clamp(32px, 6vw, 52px)",
-      fontWeight: 900,
-      color: "#facc15",
-      letterSpacing: "-0.02em",
-    }}
-  >
-    LA BANDA DE AUBASA
-  </h1>
+        <h1
+          style={{
+            margin: 0,
+            fontSize: "clamp(32px, 6vw, 52px)",
+            fontWeight: 900,
+            color: "#facc15",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          LA BANDA DE AUBASA
+        </h1>
 
-  <p
-    style={{
-      marginTop: "10px",
-      color: "#d1d5db",
-      fontWeight: 600,
-    }}
-  >
-    Fixture · Goleadores · Partidos · Historia
-  </p>
+        <p
+          style={{
+            marginTop: "10px",
+            color: "#d1d5db",
+            fontWeight: 600,
+          }}
+        >
+          Fixture · Goleadores · Partidos · Historia
+        </p>
 
-  {featuredMatch && (
-    <div
-      style={{
-        marginTop: "24px",
-        padding: "16px",
-        borderRadius: "16px",
-        background: "rgba(255,255,255,0.05)",
-        border: "1px solid rgba(255,255,255,0.08)",
-      }}
-    >
-      <div style={{ color: "#fde68a", fontWeight: 900 }}>
-        Próximo / Último partido
+        {featuredMatch && (
+          <div
+            style={{
+              marginTop: "24px",
+              padding: "16px",
+              borderRadius: "16px",
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}
+          >
+            <div style={{ color: "#fde68a", fontWeight: 900 }}>
+              Próximo / Último partido
+            </div>
+
+            <div
+              style={{
+                fontSize: "20px",
+                fontWeight: 900,
+                marginTop: "6px",
+              }}
+            >
+              Aubasa vs {featuredMatch.rival}
+            </div>
+
+            <div style={{ color: "#cbd5e1", marginTop: "6px" }}>
+              {formatDate(featuredMatch.fecha)}
+            </div>
+          </div>
+        )}
       </div>
 
       <div
         style={{
-          fontSize: "20px",
-          fontWeight: 900,
-          marginTop: "6px",
+          display: "flex",
+          gap: "12px",
+          marginBottom: "22px",
+          flexWrap: "wrap",
+          alignItems: "center",
         }}
       >
-        Aubasa vs {featuredMatch.rival}
-      </div>
+        {[
+          { key: "tabla", label: "Tabla posición" },
+          { key: "fixture", label: "Fixture" },
+          { key: "goleadores", label: "Goleadores" },
+          { key: "partidos", label: "Partidos" },
+          { key: "plantel", label: "Plantel" },
+          { key: "videos", label: "Videos / vivo" },
+          { key: "galeria", label: "Galería" },
+        ].map((tab) => {
+          const isActive = screen === tab.key;
 
-      <div style={{ color: "#cbd5e1", marginTop: "6px" }}>
-        {formatDate(featuredMatch.fecha)}
-      </div>
-    </div>
-  )}
-</div>
-
-<div
-  style={{
-    display: "flex",
-    gap: "12px",
-    marginBottom: "22px",
-    flexWrap: "wrap",
-    alignItems: "center",
-  }}
->
-  {[
-    { key: "partidos", label: "Partidos" },
-    { key: "estadisticas", label: "Estadísticas" },
-    { key: "plantel", label: "Plantel" },
-  ].map((tab) => {
-    const isActive = activeTab === tab.key;
-    return (
-      <button
-        key={tab.key}
-        onClick={() =>
-          setActiveTab(tab.key as "partidos" | "estadisticas" | "plantel")
-        }
-        style={{
-          border: isActive
-            ? "1px solid rgba(250,204,21,0.85)"
-            : "1px solid rgba(255,255,255,0.10)",
-          background: isActive
-            ? "linear-gradient(180deg, #facc15 0%, #eab308 100%)"
-            : "rgba(255,255,255,0.04)",
-          color: isActive ? "#111827" : "#f9fafb",
-          padding: "12px 20px",
-          borderRadius: "16px",
-          cursor: "pointer",
-          fontWeight: 900,
-          boxShadow: isActive
-            ? "0 10px 24px rgba(250,204,21,0.22)"
-            : "0 8px 18px rgba(0,0,0,0.12)",
-          backdropFilter: "blur(8px)",
-          transition: "all 0.2s ease",
-        }}
-      >
-        {tab.label}
-      </button>
-    );
-  })}
-
-  {isAdmin && (
-    <button
-      onClick={() => setShowForm((v) => !v)}
-      style={{
-        border: showForm
-          ? "1px solid rgba(250,204,21,0.55)"
-          : "1px solid rgba(250,204,21,0.95)",
-        background: showForm
-          ? "linear-gradient(180deg, rgba(250,204,21,0.22) 0%, rgba(234,179,8,0.18) 100%)"
-          : "linear-gradient(180deg, #facc15 0%, #eab308 100%)",
-        color: showForm ? "#fef3c7" : "#111827",
-        padding: "12px 20px",
-        borderRadius: "16px",
-        cursor: "pointer",
-        fontWeight: 900,
-        boxShadow: showForm
-          ? "0 10px 24px rgba(250,204,21,0.18)"
-          : "0 12px 26px rgba(250,204,21,0.28)",
-      }}
-    >
-      {showForm ? "Cerrar formulario" : "Nuevo partido"}
-    </button>
-  )}
-</div>
-        <div
-          style={{
-            border: "1px solid rgba(255,255,255,0.1)",
-            padding: "20px",
-            marginBottom: "24px",
-            background: "rgba(17,24,39,0.88)",
-            borderRadius: "22px",
-            boxShadow: "0 18px 40px rgba(0,0,0,0.25)",
-          }}
-        >
-          <h3 style={{ marginTop: 0, marginBottom: "16px", fontSize: "24px" }}>
-            Cargar nuevo partido
-          </h3>
-
-          <div style={{ display: "grid", gap: "12px", maxWidth: "520px" }}>
-            <input
-              placeholder="Rival"
-              value={newMatch.rival}
-              onChange={(e) =>
-                setNewMatch({ ...newMatch, rival: e.target.value })
-              }
-              style={{
-                padding: "12px",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.14)",
-                background: "rgba(255,255,255,0.04)",
-                color: "#fff",
-              }}
-            />
-
-            <input
-              type="date"
-              value={newMatch.fecha}
-              onChange={(e) =>
-                setNewMatch({
-                  ...newMatch,
-                  fecha: e.target.value,
-                  fecha_partido: e.target.value,
-                })
-              }
-              style={{
-                padding: "12px",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.14)",
-                background: "rgba(255,255,255,0.04)",
-                color: "#fff",
-              }}
-            />
-
-            <select
-              value={newMatch.resultado}
-              onChange={(e) =>
-                setNewMatch({
-                  ...newMatch,
-                  resultado: e.target.value as MatchForm["resultado"],
-                })
-              }
-              style={{
-                padding: "12px",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.14)",
-                background: "#111827",
-                color: "#fff",
-              }}
-            >
-              <option value="Pendiente">Pendiente</option>
-              <option value="Ganado">Ganado</option>
-              <option value="Empatado">Empatado</option>
-              <option value="Perdido">Perdido</option>
-            </select>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "12px",
-              }}
-            >
-              <div
-                style={{
-                  padding: "12px",
-                  borderRadius: "14px",
-                  background: "rgba(250,204,21,0.08)",
-                  border: "1px solid rgba(250,204,21,0.22)",
-                }}
-              >
-                <div
-                  style={{
-                    color: "#fde68a",
-                    fontSize: "12px",
-                    fontWeight: 800,
-                  }}
-                >
-                  GOLES A FAVOR
-                </div>
-                <div style={{ fontSize: "28px", fontWeight: 900 }}>
-                  {newMatchGoalSelections.length}
-                </div>
-              </div>
-
-              <div>
-                <input
-                  type="number"
-                  placeholder="Goles en contra"
-                  value={newMatch.goles_en_contra}
-                  onChange={(e) =>
-                    setNewMatch({
-                      ...newMatch,
-                      goles_en_contra: Number(e.target.value),
-                    })
-                  }
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "12px",
-                    border: "1px solid rgba(255,255,255,0.14)",
-                    background: "rgba(255,255,255,0.04)",
-                    color: "#fff",
-                  }}
-                />
-              </div>
-            </div>
-
-            <div
-              style={{
-                marginTop: "6px",
-                padding: "16px",
-                borderRadius: "16px",
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              <div style={{ marginBottom: "10px", fontWeight: 800 }}>
-                Goleadores del partido
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  gap: "8px",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                }}
-              >
-                <select
-                  value={selectedNewMatchPlayer}
-                  onChange={(e) => setSelectedNewMatchPlayer(e.target.value)}
-                  style={{
-                    padding: "10px 12px",
-                    borderRadius: "12px",
-                    border: "1px solid rgba(255,255,255,0.14)",
-                    background: "#111827",
-                    color: "#fff",
-                  }}
-                >
-                  {plantel.map((player) => (
-                    <option key={player} value={player}>
-                      {player}
-                    </option>
-                  ))}
-                </select>
-
-                <button
-                  type="button"
-                  onClick={addNewMatchGoalSelection}
-                  style={{
-                    border: "none",
-                    background: "#facc15",
-                    color: "#111827",
-                    padding: "10px 14px",
-                    borderRadius: "12px",
-                    cursor: "pointer",
-                    fontWeight: 900,
-                  }}
-                >
-                  Agregar gol
-                </button>
-              </div>
-
-              <div style={{ marginTop: "12px", display: "grid", gap: "6px" }}>
-                {newMatchGoalSelections.length === 0 ? (
-                  <div style={{ color: "#9ca3af" }}>No hay goles cargados.</div>
-                ) : (
-                  newMatchGoalSelections.map((player, index) => (
-                    <div
-                      key={`new-${player}-${index}`}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        gap: "8px",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        padding: "8px 10px",
-                        borderRadius: "12px",
-                        background: "rgba(255,255,255,0.04)",
-                      }}
-                    >
-                      <span>
-                        Gol {index + 1}: {player}
-                      </span>
-
-                      <button
-                        type="button"
-                        onClick={() => removeNewMatchGoalSelection(index)}
-                        style={{
-                          border: "none",
-                          background: "rgba(239,68,68,0.18)",
-                          color: "#fecaca",
-                          padding: "8px 10px",
-                          borderRadius: "10px",
-                          cursor: "pointer",
-                          fontWeight: 800,
-                        }}
-                      >
-                        Quitar
-                      </button>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-
+          return (
             <button
-              onClick={addMatch}
-              disabled={saving}
+              key={tab.key}
+              onClick={() => setScreen(tab.key as any)}
               style={{
-                border: "none",
-                background: saving ? "#4b5563" : "#22c55e",
-                color: saving ? "#d1d5db" : "#052e16",
-                padding: "14px 16px",
-                borderRadius: "14px",
-                cursor: saving ? "not-allowed" : "pointer",
+                border: isActive
+                  ? "1px solid rgba(250,204,21,0.85)"
+                  : "1px solid rgba(255,255,255,0.10)",
+                background: isActive
+                  ? "linear-gradient(180deg, #facc15 0%, #eab308 100%)"
+                  : "rgba(255,255,255,0.04)",
+                color: isActive ? "#111827" : "#f9fafb",
+                padding: "12px 20px",
+                borderRadius: "16px",
+                cursor: "pointer",
                 fontWeight: 900,
-                fontSize: "16px",
+                boxShadow: isActive
+                  ? "0 10px 24px rgba(250,204,21,0.22)"
+                  : "0 8px 18px rgba(0,0,0,0.12)",
+                backdropFilter: "blur(8px)",
+                transition: "all 0.2s ease",
               }}
             >
-              {saving ? "Guardando..." : "Guardar partido"}
+              {tab.label}
             </button>
-          </div>
-        </div>
-    
+          );
+        })}
+ </div>
 
-      {activeTab === "partidos" && (
+{screen === "partidos" && (
         <div style={{ display: "grid", gap: "16px" }}>
           {sortedMatches.length === 0 ? (
             <div
@@ -1812,7 +1557,7 @@ export default function Home() {
         </div>
       )}
 
-      {activeTab === "estadisticas" && (
+      {screen === "goleadores" && (
         <div
           style={{
             display: "grid",
@@ -1939,7 +1684,7 @@ export default function Home() {
         </div>
       )}
 
-      {activeTab === "plantel" && (
+      {screen === "plantel" && (
         <div
           style={{
             display: "grid",

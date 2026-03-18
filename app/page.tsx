@@ -841,21 +841,21 @@ export default function Home() {
           alignItems: "center",
         }}
       >
-        {[
-          { key: "tabla", label: "Tabla posición" },
-          { key: "fixture", label: "Fixture" },
-          { key: "goleadores", label: "Goleadores" },
-          { key: "partidos", label: "Partidos" },
-          { key: "plantel", label: "Plantel" },
-          { key: "videos", label: "Videos / vivo" },
-          { key: "galeria", label: "Galería" },
-        ].map((tab) => {
-          const isActive = screen === tab.key;
+      {([
+  { key: "tabla", label: "Tabla posición" },
+  { key: "fixture", label: "Fixture" },
+  { key: "goleadores", label: "Goleadores" },
+  { key: "partidos", label: "Partidos" },
+  { key: "plantel", label: "Plantel" },
+  { key: "videos", label: "Videos / vivo" },
+  { key: "galeria", label: "Galería" },
+] as const).map((tab) => {
+  const isActive = screen === tab.key;
 
-          return (
-            <button
-              key={tab.key}
-              onClick={() => setScreen(tab.key as any)}
+  return (
+    <button
+      key={tab.key}
+      onClick={() => setScreen(tab.key)}
               style={{
                 border: isActive
                   ? "1px solid rgba(250,204,21,0.85)"

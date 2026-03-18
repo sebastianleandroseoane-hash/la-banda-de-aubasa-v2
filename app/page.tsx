@@ -219,7 +219,9 @@ export default function Home() {
   const [password, setPassword] = useState("");
 
   const ADMIN_EMAIL = "sebastianleandroseoane@gmail.com";
-
+  const liveUrl =
+    "https://www.youtube.com/live/o4R5TRGzyrs?si=o7rOg118cb1ESKhk";
+  const latestVideoUrl = "https://youtu.be/gT-qINQNk8Q?si=Q7VIOmGEHZjy2k3H";
   useEffect(() => {
     async function loadUser() {
       const {
@@ -319,7 +321,16 @@ export default function Home() {
       return db - da;
     });
   }, [matches]);
-
+  const galleryPhotos = useMemo(() => {
+    return sortedMatches.flatMap((match) =>
+      (match.match_photos ?? []).map((photo) => ({
+        id: photo.id,
+        url: photo.public_url,
+        rival: match.rival,
+        fecha: match.fecha,
+      }))
+    );
+  }, [sortedMatches]);
   const stats = useMemo(() => {
     let pj = 0;
     let pg = 0;
@@ -881,6 +892,55 @@ export default function Home() {
           );
         })}
       </div>
+      {screen === "videos" && (
+        <div style={{ display: "grid", gap: "20px" }}>
+          <div
+            style={{
+              border: "1px solid rgba(255,255,255,0.08)",
+              padding: "24px",
+              background:
+                "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.8)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
+              borderRadius: "22px",
+            }}
+          >
+            <h2 style={{ marginTop: 0 }}>Videos / vivo</h2>
+
+            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+              <a
+                href={liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  padding: "14px 20px",
+                  borderRadius: "16px",
+                  textDecoration: "none",
+                  fontWeight: 900,
+                  background: "#dc2626",
+                  color: "#fff",
+                }}
+              >
+                Ver vivo
+              </a>
+
+              <a
+                href={latestVideoUrl}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  padding: "14px 20px",
+                  borderRadius: "16px",
+                  textDecoration: "none",
+                  fontWeight: 900,
+                  background: "#facc15",
+                  color: "#111827",
+                }}
+              >
+                Ver último video
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
       {screen === "partidos" && (
         <div style={{ display: "grid", gap: "16px" }}>
           {sortedMatches.length === 0 ? (
@@ -896,9 +956,6 @@ export default function Home() {
             </div>
           ) : (
             sortedMatches.map((m) => {
-              const photos = m.match_photos ?? [];
-              const imageUrls = photos.map((p) => p.public_url);
-              const featuredCardPhoto = imageUrls[0] || "";
               const gfActual = (goalSelections[m.id] || []).length;
 
               return (
@@ -1324,21 +1381,6 @@ export default function Home() {
                           flexWrap: "wrap",
                         }}
                       >
-                        <div
-                          style={{
-                            padding: "6px 10px",
-                            borderRadius: "999px",
-                            background: "rgba(250,204,21,0.10)",
-                            border: "1px solid rgba(250,204,21,0.18)",
-                            color: "#fde68a",
-                            fontSize: "12px",
-                            fontWeight: 900,
-                          }}
-                        >
-                          {photos.length}{" "}
-                          {photos.length === 1 ? "foto" : "fotos"}
-                        </div>
-
                         {isAdmin && (
                           <label
                             style={{
@@ -1368,192 +1410,60 @@ export default function Home() {
                         )}
                       </div>
                     </div>
-                    {featuredCardPhoto && (
-                      <div
-                        style={{
-                          marginTop: "16px",
-                          position: "relative",
-                          overflow: "hidden",
-                          borderRadius: "20px",
-                          border: "1px solid rgba(255,255,255,0.08)",
-                          background: "#0f172a",
-                          boxShadow: "0 18px 38px rgba(0,0,0,0.24)",
-                        }}
-                      >
-                        <img
-                          src={featuredCardPhoto}
-                          alt={`destacada-${m.rival}`}
-                          style={{
-                            width: "100%",
-                            aspectRatio: "16 / 7",
-                            objectFit: "cover",
-                            display: "block",
-                            cursor: "pointer",
-                          }}
-                          onClick={() =>
-                            setViewer({ images: imageUrls, index: 0 })
-                          }
-                        />
-
-                        <div
-                          style={{
-                            position: "absolute",
-                            inset: 0,
-                            background:
-                              "linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.16) 55%, rgba(0,0,0,0.72) 100%)",
-                            pointerEvents: "none",
-                          }}
-                        />
-
-                        <div
-                          style={{
-                            position: "absolute",
-                            left: "16px",
-                            bottom: "16px",
-                            right: "16px",
-                            display: "flex",
-                            justifyContent: "space-between",
-                            gap: "12px",
-                            flexWrap: "wrap",
-                            alignItems: "flex-end",
-                          }}
-                        >
-                          <div>
-                            <div
-                              style={{
-                                fontSize: "12px",
-                                fontWeight: 900,
-                                letterSpacing: "0.08em",
-                                textTransform: "uppercase",
-                                color: "#fde68a",
-                                marginBottom: "6px",
-                              }}
-                            >
-                              Foto destacada
-                            </div>
-                            <div
-                              style={{
-                                fontSize: "20px",
-                                fontWeight: 900,
-                                color: "#ffffff",
-                                textTransform: "uppercase",
-                              }}
-                            >
-                              Aubasa vs {m.rival}
-                            </div>
-                          </div>
-
-                          <div
-                            style={{
-                              padding: "8px 12px",
-                              borderRadius: "999px",
-                              background: "rgba(0,0,0,0.55)",
-                              border: "1px solid rgba(255,255,255,0.16)",
-                              color: "#f8fafc",
-                              fontWeight: 800,
-                              fontSize: "12px",
-                            }}
-                          >
-                            Tocá para ampliar
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    {photos.length === 0 ? (
-                      <div
-                        style={{
-                          padding: "14px",
-                          borderRadius: "14px",
-                          background: "rgba(255,255,255,0.03)",
-                          border: "1px dashed rgba(255,255,255,0.10)",
-                          color: "#9ca3af",
-                          fontWeight: 700,
-                        }}
-                      >
-                        Todavía no hay fotos cargadas para este partido.
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns:
-                            "repeat(auto-fit, minmax(200px, 1fr))",
-                          gap: "12px",
-                        }}
-                      >
-                        {photos.slice(1).map((photo, i) => (
-                          <div
-                            key={photo.id}
-                            style={{
-                              position: "relative",
-                              overflow: "hidden",
-                              borderRadius: "16px",
-                              border: "1px solid rgba(255,255,255,0.08)",
-                              background: "#0f172a",
-                              boxShadow: "0 12px 24px rgba(0,0,0,0.18)",
-                            }}
-                          >
-                            <img
-                              src={photo.public_url}
-                              alt={`foto-${i}`}
-                              style={{
-                                width: "100%",
-                                aspectRatio: "16 / 10",
-                                objectFit: "cover",
-                                cursor: "pointer",
-                                display: "block",
-                              }}
-                              onClick={() =>
-                                setViewer({ images: imageUrls, index: i })
-                              }
-                            />
-
-                            <div
-                              style={{
-                                position: "absolute",
-                                left: 8,
-                                bottom: 8,
-                                background: "rgba(0,0,0,0.68)",
-                                color: "#fff",
-                                padding: "6px 8px",
-                                borderRadius: "8px",
-                                fontSize: "12px",
-                                fontWeight: 800,
-                              }}
-                            >
-                              Foto {i + 1}
-                            </div>
-
-                            {isAdmin && (
-                              <button
-                                onClick={() =>
-                                  handleDeletePhoto(photo.id, photo.public_url)
-                                }
-                                style={{
-                                  position: "absolute",
-                                  top: 8,
-                                  right: 8,
-                                  background: "rgba(0,0,0,0.78)",
-                                  color: "#fff",
-                                  border: "none",
-                                  padding: "6px 8px",
-                                  cursor: "pointer",
-                                  fontSize: "12px",
-                                  borderRadius: "8px",
-                                  fontWeight: 800,
-                                }}
-                              >
-                                borrar
-                              </button>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
                   </div>
                 </div>
               );
             })
+          )}
+        </div>
+      )}
+      {screen === "galeria" && (
+        <div
+          style={{
+            display: "grid",
+            gap: "16px",
+          }}
+        >
+          {galleryPhotos.length === 0 ? (
+            <div
+              style={{
+                padding: "20px",
+                borderRadius: "18px",
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              No hay fotos todavía.
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: "12px",
+              }}
+            >
+              {galleryPhotos.map((photo, i) => (
+                <img
+                  key={photo.id}
+                  src={photo.url}
+                  alt={`galeria-${i}`}
+                  style={{
+                    width: "100%",
+                    height: "180px",
+                    objectFit: "cover",
+                    borderRadius: "16px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() =>
+                    setViewer({
+                      images: galleryPhotos.map((p) => p.url),
+                      index: i,
+                    })
+                  }
+                />
+              ))}
+            </div>
           )}
         </div>
       )}

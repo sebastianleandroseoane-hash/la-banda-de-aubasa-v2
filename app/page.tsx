@@ -641,10 +641,9 @@ export default function Home() {
         fontFamily: "sans-serif",
         color: "#f9fafb",
         background:
-          "linear-gradient(180deg, #0b1220 0%, #111827 35%, #0f172a 100%)",
+          "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
       }}
-    >
-      <div
+    > <div
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -766,7 +765,7 @@ export default function Home() {
           textAlign: "center",
           border: "1px solid rgba(250,204,21,0.18)",
           background:
-            "linear-gradient(135deg, #0f172a 0%, #111827 50%, #0b1220 100%)",
+          "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.85)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
           boxShadow: "0 30px 60px rgba(0,0,0,0.35)",
         }}
       >
@@ -807,7 +806,7 @@ export default function Home() {
               marginTop: "24px",
               padding: "16px",
               borderRadius: "16px",
-              background: "rgba(255,255,255,0.05)",
+              background: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75))",
               border: "1px solid rgba(255,255,255,0.08)",
             }}
           >
@@ -909,7 +908,7 @@ export default function Home() {
                   style={{
                     border: "1px solid rgba(255,255,255,0.08)",
                     padding: "18px",
-                    background: "rgba(17,24,39,0.88)",
+                    background: "repeating-linear-gradient(90deg, #14532d 0px, #14532d 40px, #166534 40px, #166534 80px)",
                     borderRadius: "22px",
                     boxShadow: "0 16px 36px rgba(0,0,0,0.18)",
                   }}

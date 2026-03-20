@@ -2260,6 +2260,7 @@ right: "16px",
             boxShadow: "0 16px 36px rgba(0,0,0,0.18)",
             display: "grid",
             gap: "16px",
+            overflowX: "auto",
           }}
         >
           <div
@@ -2325,7 +2326,7 @@ right: "16px",
         style={{
           display: "grid",
           gridTemplateColumns:
-            "44px minmax(140px, 1fr) 44px 44px 44px 44px 44px 44px 44px 52px",
+  "32px minmax(110px, 1fr) 32px 32px 32px 32px 32px 32px 32px 40px",
           gap: "6px",
           alignItems: "center",
           padding: "12px 8px",

@@ -171,7 +171,7 @@ function formatDate(date: string) {
 export default function Home() {
   const [screen, setScreen] = useState<
     | "inicio"
-    | "tabla"
+    | "grupos"
     | "fixture"
     | "goleadores"
     | "partidos"
@@ -222,7 +222,7 @@ export default function Home() {
 
   const ADMIN_EMAIL = "sebastianleandroseoane@gmail.com";
   const liveUrl =
-    "https://www.youtube.com/live/o4R5TRGzyrs?si=o7rOg118cb1ESKhk";
+  "https://www.youtube.com/live/IsKIWA1rhcM";
   const latestVideoUrl = "https://youtu.be/gT-qINQNk8Q?si=Q7VIOmGEHZjy2k3H";
 
   useEffect(() => {
@@ -874,7 +874,7 @@ right: "16px",
       >
         {(
           [
-            { key: "tabla", label: "Grupos" },
+            { key: "grupos", label: "Grupos" },
             { key: "fixture", label: "Fixture" },
             { key: "goleadores", label: "Goleadores" },
             { key: "partidos", label: "Partidos" },
@@ -2074,7 +2074,7 @@ right: "16px",
       {/* =========================
           PLACEHOLDERS
       ========================= */}
-                  {screen === "tabla" && (
+                  {screen === "grupos" && (
         <div
           style={{
             display: "grid",

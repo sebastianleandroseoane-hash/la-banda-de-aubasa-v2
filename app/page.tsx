@@ -2401,7 +2401,7 @@ right: "16px",
   })}
 </div>
 
-          <div style={{ display: "grid", gap: "8px" }}>
+          <div style={{ display: "grid", gap: "8px", overflowX: "auto" }}>
             <div
               style={{
                 fontWeight: 900,

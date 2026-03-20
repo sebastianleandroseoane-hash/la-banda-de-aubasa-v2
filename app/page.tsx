@@ -330,7 +330,7 @@ export default function Home() {
       (match.match_photos ?? []).map((photo) => ({
         id: photo.id,
         url: photo.public_url || "",
-        storagePath: photo.photo_url || "",
+        storagePath: photo.photo_url || photo.storage_path || "",
         rival: match.rival,
         fecha: match.fecha_partido || match.fecha || "",
       }))
@@ -664,6 +664,23 @@ export default function Home() {
       {/* =========================
           HERO PRINCIPAL
       ========================= */}
+      {/* Logo personal (esquina) */}
+<img
+  src="/rosky.jpeg"
+  alt="Rosky Seoane"
+  style={{
+    position: "absolute",
+    top: "16px",
+right: "16px",
+    width: "48px",
+    height: "48px",
+    borderRadius: "50%",
+    opacity: 0.85,
+    boxShadow: "0 6px 18px rgba(0,0,0,0.4)",
+    border: "2px solid rgba(255,255,255,0.2)",
+    zIndex: 2,
+  }}
+/>
       <div
         style={{
           position: "relative",
@@ -843,7 +860,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* =========================
+            {/* =========================
           NAVEGACIÓN PRINCIPAL
       ========================= */}
       <div
@@ -857,7 +874,7 @@ export default function Home() {
       >
         {(
           [
-            { key: "tabla", label: "Tabla posición" },
+            { key: "tabla", label: "Grupos" },
             { key: "fixture", label: "Fixture" },
             { key: "goleadores", label: "Goleadores" },
             { key: "partidos", label: "Partidos" },
@@ -2057,45 +2074,160 @@ export default function Home() {
       {/* =========================
           PLACEHOLDERS
       ========================= */}
-      {screen === "tabla" && (
+                  {screen === "tabla" && (
         <div
           style={{
-            padding: "24px",
-            borderRadius: "18px",
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gap: "18px",
           }}
         >
-          Próximamente: tabla de posiciones.
+          {[
+            {
+              nombre: "Grupo A",
+              equipos: [
+                "SUTPA Pilar",
+                "Hudson F.C.",
+                "Banda de Aubasa",
+                "Guidoneta",
+              ],
+            },
+            {
+              nombre: "Grupo B",
+              equipos: [
+                "Obrador 202",
+                "Dep Riccheri",
+                "El Docke",
+                "El Oeste",
+              ],
+            },
+            {
+              nombre: "Grupo C",
+              equipos: ["Flavioneta", "Croacia F.C.", "Obrador Ruta 4"],
+            },
+          ].map((grupo) => (
+            <div
+              key={grupo.nombre}
+              style={{
+                padding: "20px",
+                borderRadius: "22px",
+                background: "rgba(17,24,39,0.88)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                boxShadow: "0 16px 36px rgba(0,0,0,0.18)",
+              }}
+            >
+              <div
+                style={{
+                  display: "inline-block",
+                  marginBottom: "16px",
+                  padding: "8px 14px",
+                  borderRadius: "999px",
+                  background: "rgba(250,204,21,0.12)",
+                  border: "1px solid rgba(250,204,21,0.22)",
+                  color: "#fde68a",
+                  fontWeight: 900,
+                  fontSize: "14px",
+                }}
+              >
+                {grupo.nombre}
+              </div>
+
+              <div
+                style={{
+                  display: "grid",
+                  gap: "8px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "70px 1fr",
+                    gap: "10px",
+                    padding: "10px 12px",
+                    borderRadius: "14px",
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    fontWeight: 900,
+                    color: "#fde68a",
+                  }}
+                >
+                  <div>Pos</div>
+                  <div>Equipo</div>
+                </div>
+
+                {grupo.equipos.map((equipo, index) => {
+                  const esAubasa = equipo === "Banda de Aubasa";
+
+                  return (
+                    <div
+                      key={equipo}
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "70px 1fr",
+                        gap: "10px",
+                        alignItems: "center",
+                        padding: "14px 16px",
+                        borderRadius: "16px",
+                        background: esAubasa
+                          ? "linear-gradient(90deg, rgba(250,204,21,0.18), rgba(255,255,255,0.04))"
+                          : "rgba(255,255,255,0.04)",
+                        border: esAubasa
+                          ? "1px solid rgba(250,204,21,0.28)"
+                          : "1px solid rgba(255,255,255,0.06)",
+                        fontWeight: esAubasa ? 900 : 700,
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          minHeight: "42px",
+                          borderRadius: "12px",
+                          background: esAubasa
+                            ? "rgba(250,204,21,0.18)"
+                            : "rgba(255,255,255,0.06)",
+                          color: esAubasa ? "#fde68a" : "#f9fafb",
+                          fontWeight: 900,
+                        }}
+                      >
+                        {index + 1}
+                      </div>
+
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          gap: "12px",
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        <span>{equipo}</span>
+
+                        {esAubasa && (
+                          <span
+                            style={{
+                              padding: "6px 10px",
+                              borderRadius: "999px",
+                              background: "#facc15",
+                              color: "#111827",
+                              fontSize: "12px",
+                              fontWeight: 900,
+                            }}
+                          >
+                            AUBASA
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       )}
-
-      {screen === "fixture" && (
-        <div
-          style={{
-            padding: "24px",
-            borderRadius: "18px",
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
-          Próximamente: fixture.
-        </div>
-      )}
-
-      {screen === "inicio" && (
-        <div
-          style={{
-            padding: "24px",
-            borderRadius: "18px",
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
-          Bienvenido a La Banda de Aubasa.
-        </div>
-      )}
-
       {/* =========================
           PANEL ADMIN / SESIÓN
       ========================= */}

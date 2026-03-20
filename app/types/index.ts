@@ -10,7 +10,8 @@ export type ScorerRow = {
 export type MatchPhotoRow = {
   id: string;
   match_id: string;
-  storage_path: string;
+  storage_path?: string;
+  photo_url?: string;
   public_url: string;
 };
 

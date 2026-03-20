@@ -4,7 +4,7 @@ const BUCKET = "match-photos";
 
 export async function uploadMatchPhotos(matchId: string, files: FileList) {
   for (const file of Array.from(files)) {
-    const ext = file.name.split(".").pop();
+    const ext = file.name.split(".").pop() || "jpg";
     const path = `${matchId}/${crypto.randomUUID()}.${ext}`;
 
     const { error: uploadError } = await supabase.storage

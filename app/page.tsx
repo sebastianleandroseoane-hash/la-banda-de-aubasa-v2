@@ -182,6 +182,7 @@ export default function Home() {
 
   const [matches, setMatches] = useState<MatchRow[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [galleryUploadMatchId, setGalleryUploadMatchId] = useState("");
   const [viewer, setViewer] = useState<{
     images: string[];
     index: number;
@@ -213,6 +214,7 @@ export default function Home() {
     goles_en_contra: 0,
     goles: "",
   });
+
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [email, setEmail] = useState("");
@@ -222,6 +224,7 @@ export default function Home() {
   const liveUrl =
     "https://www.youtube.com/live/o4R5TRGzyrs?si=o7rOg118cb1ESKhk";
   const latestVideoUrl = "https://youtu.be/gT-qINQNk8Q?si=Q7VIOmGEHZjy2k3H";
+
   useEffect(() => {
     async function loadUser() {
       const {
@@ -321,16 +324,19 @@ export default function Home() {
       return db - da;
     });
   }, [matches]);
+
   const galleryPhotos = useMemo(() => {
     return sortedMatches.flatMap((match) =>
       (match.match_photos ?? []).map((photo) => ({
         id: photo.id,
-        url: photo.public_url,
+        url: photo.public_url || "",
+        storagePath: photo.photo_url || "",
         rival: match.rival,
-        fecha: match.fecha,
+        fecha: match.fecha_partido || match.fecha || "",
       }))
     );
   }, [sortedMatches]);
+
   const stats = useMemo(() => {
     let pj = 0;
     let pg = 0;
@@ -492,8 +498,8 @@ export default function Home() {
       });
       setSelectedNewMatchPlayer(plantel[0] || "");
       setNewMatchGoalSelections([]);
-
       setShowForm(false);
+
       await loadMatches();
     } catch (error) {
       console.error("ADD MATCH ERROR:", error);
@@ -655,193 +661,191 @@ export default function Home() {
           "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
       }}
     >
-      {" "}
+      {/* =========================
+          HERO PRINCIPAL
+      ========================= */}
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "16px",
-          flexWrap: "wrap",
-          marginBottom: "20px",
-          padding: "16px 18px",
-          borderRadius: "18px",
-          border: "1px solid rgba(255,255,255,0.08)",
-          background: "rgba(255,255,255,0.04)",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
-        }}
-      >
-        {!userEmail ? (
-          <form
-            onSubmit={handleLogin}
-            style={{
-              display: "flex",
-              gap: "12px",
-              flexWrap: "wrap",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              style={{
-                flex: "1 1 220px",
-                minWidth: "220px",
-                padding: "12px 14px",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.12)",
-                background: "#111827",
-                color: "#f9fafb",
-                outline: "none",
-              }}
-            />
-
-            <input
-              type="password"
-              placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={{
-                flex: "1 1 220px",
-                minWidth: "220px",
-                padding: "12px 14px",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.12)",
-                background: "#111827",
-                color: "#f9fafb",
-                outline: "none",
-              }}
-            />
-
-            <button
-              type="submit"
-              style={{
-                padding: "12px 18px",
-                borderRadius: "12px",
-                border: "none",
-                background: "#facc15",
-                color: "#111827",
-                fontWeight: 900,
-                cursor: "pointer",
-              }}
-            >
-              Iniciar sesión
-            </button>
-          </form>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: "12px",
-              flexWrap: "wrap",
-              width: "100%",
-            }}
-          >
-            <div
-              style={{
-                color: isAdmin ? "#86efac" : "#d1d5db",
-                fontWeight: 700,
-              }}
-            >
-              Sesión iniciada: {userEmail}
-              {isAdmin ? " (admin)" : ""}
-            </div>
-
-            <button
-              onClick={handleLogout}
-              style={{
-                padding: "12px 18px",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.12)",
-                background: "#111827",
-                color: "#f9fafb",
-                fontWeight: 800,
-                cursor: "pointer",
-              }}
-            >
-              Cerrar sesión
-            </button>
-          </div>
-        )}
-      </div>
-      <div
-        style={{
+          position: "relative",
           borderRadius: "32px",
-          padding: "40px 24px",
+          padding: "64px 24px 44px",
           marginBottom: "24px",
           textAlign: "center",
+          overflow: "hidden",
           border: "1px solid rgba(250,204,21,0.18)",
-          background:
-            "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.85)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
           boxShadow: "0 30px 60px rgba(0,0,0,0.35)",
+          background:
+            featuredPhoto
+              ? `linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.85)), url('${featuredPhoto}') center/cover no-repeat`
+              : "linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.85)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
         }}
       >
-        <img
-          src="/escudo.png"
-          alt="Escudo La Banda de Aubasa"
+        <div
           style={{
-            width: "120px",
-            marginBottom: "16px",
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "url('/escudo.png')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "420px",
+            opacity: 0.09,
+            filter: "blur(1px)",
+            pointerEvents: "none",
           }}
         />
 
-        <h1
+        <div
           style={{
-            margin: 0,
-            fontSize: "clamp(32px, 6vw, 52px)",
-            fontWeight: 900,
-            color: "#facc15",
-            letterSpacing: "-0.02em",
+            position: "relative",
+            zIndex: 1,
           }}
         >
-          LA BANDA DE AUBASA
-        </h1>
-
-        <p
-          style={{
-            marginTop: "10px",
-            color: "#d1d5db",
-            fontWeight: 600,
-          }}
-        >
-          Fixture · Goleadores · Partidos · Historia
-        </p>
-
-        {featuredMatch && (
           <div
             style={{
-              marginTop: "24px",
-              padding: "16px",
-              borderRadius: "16px",
-              background: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75))",
-              border: "1px solid rgba(255,255,255,0.08)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "12px",
+              padding: "10px 18px",
+              borderRadius: "999px",
+              background: "rgba(250,204,21,0.12)",
+              border: "1px solid rgba(250,204,21,0.22)",
+              color: "#fde68a",
+              fontWeight: 900,
+              marginBottom: "18px",
             }}
           >
-            <div style={{ color: "#fde68a", fontWeight: 900 }}>
-              Próximo / Último partido
-            </div>
+            <span>⚽</span>
+            <span>Fútbol · SUTPA · AUBASA</span>
+          </div>
 
+          <img
+            src="/escudo.png"
+            alt="Escudo La Banda de Aubasa"
+            style={{
+              width: "118px",
+              marginBottom: "14px",
+              filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.35))",
+            }}
+          />
+
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "clamp(34px, 6vw, 58px)",
+              fontWeight: 900,
+              color: "#facc15",
+              letterSpacing: "-0.03em",
+              textShadow: "0 6px 22px rgba(0,0,0,0.32)",
+            }}
+          >
+            LA BANDA DE AUBASA
+          </h1>
+
+          <p
+            style={{
+              marginTop: "12px",
+              marginBottom: 0,
+              color: "#e5e7eb",
+              fontWeight: 600,
+              fontSize: "16px",
+            }}
+          >
+            Fixture · Goleadores · Partidos · Plantel · Videos · Galería
+          </p>
+
+          {featuredMatch && (
             <div
               style={{
-                fontSize: "20px",
-                fontWeight: 900,
-                marginTop: "6px",
+                maxWidth: "620px",
+                margin: "26px auto 0",
+                padding: "18px 18px 16px",
+                borderRadius: "18px",
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.10)",
+                boxShadow: "0 16px 36px rgba(0,0,0,0.22)",
               }}
             >
-              Aubasa vs {featuredMatch.rival}
-            </div>
+              <div
+                style={{
+                  color: "#fde68a",
+                  fontWeight: 900,
+                  fontSize: "13px",
+                  letterSpacing: "0.04em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {getResultLabel(featuredMatch)}
+              </div>
 
-            <div style={{ color: "#cbd5e1", marginTop: "6px" }}>
-              {formatDate(featuredMatch.fecha)}
+              <div
+                style={{
+                  fontSize: "24px",
+                  fontWeight: 900,
+                  marginTop: "8px",
+                }}
+              >
+                Aubasa vs {featuredMatch.rival}
+              </div>
+
+              <div
+                style={{
+                  color: "#cbd5e1",
+                  marginTop: "8px",
+                  fontWeight: 600,
+                }}
+              >
+                {formatDate(featuredMatch.fecha_partido || featuredMatch.fecha)}
+              </div>
+
+              {featuredMatch.resultado !== "Pendiente" && (
+                <>
+                  <div
+                    style={{
+                      marginTop: "12px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      padding: "10px 14px",
+                      borderRadius: "999px",
+                      background: "rgba(255,255,255,0.06)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      fontWeight: 800,
+                    }}
+                  >
+                    <span>Resultado:</span>
+                    <span>
+                      {featuredMatch.goles_a_favor ?? 0} -{" "}
+                      {featuredMatch.goles_en_contra ?? 0}
+                    </span>
+                  </div>
+
+                  {featuredScorers.length > 0 && (
+                    <div
+                      style={{
+                        marginTop: "14px",
+                        color: "#e5e7eb",
+                        fontWeight: 700,
+                        fontSize: "14px",
+                      }}
+                    >
+                      Goles:{" "}
+                      {featuredScorers
+                        .map((s) =>
+                          s.goals > 1 ? `${s.name} (${s.goals})` : s.name
+                        )
+                        .join(", ")}
+                    </div>
+                  )}
+                </>
+              )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
+
+      {/* =========================
+          NAVEGACIÓN PRINCIPAL
+      ========================= */}
       <div
         style={{
           display: "flex",
@@ -892,6 +896,306 @@ export default function Home() {
           );
         })}
       </div>
+
+      {/* =========================
+          ADMIN NUEVO PARTIDO
+      ========================= */}
+      {isAdmin && (
+        <div style={{ display: "grid", gap: "14px", marginBottom: "22px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => setShowForm((prev) => !prev)}
+              style={{
+                border: "none",
+                background: showForm ? "#ef4444" : "#facc15",
+                color: "#111827",
+                padding: "12px 16px",
+                borderRadius: "12px",
+                cursor: "pointer",
+                fontWeight: 900,
+                boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
+              }}
+            >
+              {showForm ? "Cerrar formulario" : "ADMIN · Nuevo partido"}
+            </button>
+          </div>
+
+          {showForm && (
+            <div
+              style={{
+                padding: "20px",
+                borderRadius: "18px",
+                background: "rgba(17,24,39,0.9)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                display: "grid",
+                gap: "12px",
+                maxWidth: "760px",
+              }}
+            >
+              <h3 style={{ margin: 0 }}>Nuevo partido</h3>
+
+              <input
+                type="text"
+                placeholder="Rival"
+                value={newMatch.rival}
+                onChange={(e) =>
+                  setNewMatch((prev) => ({ ...prev, rival: e.target.value }))
+                }
+                style={{
+                  padding: "10px",
+                  borderRadius: "10px",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  background: "#0f172a",
+                  color: "#fff",
+                }}
+              />
+
+              <input
+                type="date"
+                value={newMatch.fecha}
+                onChange={(e) =>
+                  setNewMatch((prev) => ({
+                    ...prev,
+                    fecha: e.target.value,
+                    fecha_partido: e.target.value,
+                  }))
+                }
+                style={{
+                  padding: "10px",
+                  borderRadius: "10px",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  background: "#0f172a",
+                  color: "#fff",
+                }}
+              />
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                  gap: "12px",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "14px",
+                    borderRadius: "14px",
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <div
+                    style={{
+                      color: "#cbd5e1",
+                      fontSize: "12px",
+                      fontWeight: 800,
+                      marginBottom: "8px",
+                    }}
+                  >
+                    GOLES EN CONTRA
+                  </div>
+
+                  <input
+                    type="number"
+                    value={newMatch.goles_en_contra}
+                    onChange={(e) =>
+                      setNewMatch((prev) => ({
+                        ...prev,
+                        goles_en_contra: Number(e.target.value),
+                      }))
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "10px 12px",
+                      borderRadius: "12px",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      background: "#0f172a",
+                      color: "#fff",
+                    }}
+                  />
+                </div>
+
+                <div
+                  style={{
+                    padding: "14px",
+                    borderRadius: "14px",
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <div
+                    style={{
+                      color: "#cbd5e1",
+                      fontSize: "12px",
+                      fontWeight: 800,
+                      marginBottom: "8px",
+                    }}
+                  >
+                    RESULTADO
+                  </div>
+
+                  <select
+                    value={newMatch.resultado}
+                    onChange={(e) =>
+                      setNewMatch((prev) => ({
+                        ...prev,
+                        resultado: e.target.value as MatchRow["resultado"],
+                      }))
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "10px 12px",
+                      borderRadius: "12px",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      background: "#0f172a",
+                      color: "#fff",
+                    }}
+                  >
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Ganado">Ganado</option>
+                    <option value="Empatado">Empatado</option>
+                    <option value="Perdido">Perdido</option>
+                  </select>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  marginTop: "6px",
+                  padding: "16px",
+                  borderRadius: "16px",
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                <div style={{ fontWeight: 900, marginBottom: "10px" }}>
+                  Goleadores del nuevo partido
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                  }}
+                >
+                  <select
+                    value={selectedNewMatchPlayer}
+                    onChange={(e) => setSelectedNewMatchPlayer(e.target.value)}
+                    style={{
+                      padding: "10px 12px",
+                      borderRadius: "12px",
+                      border: "1px solid rgba(255,255,255,0.14)",
+                      background: "#111827",
+                      color: "#fff",
+                    }}
+                  >
+                    {plantel.map((player) => (
+                      <option key={player} value={player}>
+                        {player}
+                      </option>
+                    ))}
+                  </select>
+
+                  <button
+                    type="button"
+                    onClick={addNewMatchGoalSelection}
+                    style={{
+                      border: "none",
+                      background: "#facc15",
+                      color: "#111827",
+                      padding: "10px 14px",
+                      borderRadius: "12px",
+                      cursor: "pointer",
+                      fontWeight: 900,
+                    }}
+                  >
+                    Agregar gol
+                  </button>
+                </div>
+
+                <div
+                  style={{
+                    marginTop: "12px",
+                    display: "grid",
+                    gap: "8px",
+                  }}
+                >
+                  {newMatchGoalSelections.length === 0 ? (
+                    <div style={{ color: "#9ca3af" }}>
+                      No hay goles cargados.
+                    </div>
+                  ) : (
+                    newMatchGoalSelections.map((player, index) => (
+                      <div
+                        key={`new-${player}-${index}`}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          gap: "8px",
+                          border: "1px solid rgba(255,255,255,0.08)",
+                          padding: "10px 12px",
+                          borderRadius: "12px",
+                          background: "rgba(255,255,255,0.04)",
+                        }}
+                      >
+                        <span>
+                          Gol {index + 1}: {player}
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={() => removeNewMatchGoalSelection(index)}
+                          style={{
+                            border: "none",
+                            background: "rgba(239,68,68,0.18)",
+                            color: "#fecaca",
+                            padding: "8px 10px",
+                            borderRadius: "10px",
+                            cursor: "pointer",
+                            fontWeight: 800,
+                          }}
+                        >
+                          Quitar
+                        </button>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={addMatch}
+                disabled={saving}
+                style={{
+                  background: saving ? "#64748b" : "#22c55e",
+                  color: "#052e16",
+                  padding: "12px",
+                  borderRadius: "10px",
+                  fontWeight: 900,
+                  border: "none",
+                  cursor: saving ? "not-allowed" : "pointer",
+                }}
+              >
+                {saving ? "Guardando..." : "Guardar partido"}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* =========================
+          PANTALLA VIDEOS / VIVO
+      ========================= */}
       {screen === "videos" && (
         <div style={{ display: "grid", gap: "20px" }}>
           <div
@@ -941,6 +1245,10 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* =========================
+          PANTALLA PARTIDOS
+      ========================= */}
       {screen === "partidos" && (
         <div style={{ display: "grid", gap: "16px" }}>
           {sortedMatches.length === 0 ? (
@@ -990,7 +1298,7 @@ export default function Home() {
                         Aubasa vs {m.rival}
                       </div>
                       <div style={{ color: "#cbd5e1", marginTop: "4px" }}>
-                        Fecha: {formatDate(m.fecha)}
+                        Fecha: {formatDate(m.fecha_partido || m.fecha)}
                       </div>
                     </div>
 
@@ -1344,79 +1652,16 @@ export default function Home() {
                       </div>
                     )}
                   </div>
-
-                  <div
-                    style={{
-                      marginTop: "16px",
-                      padding: "16px",
-                      borderRadius: "18px",
-                      background: "rgba(255,255,255,0.03)",
-                      border: "1px solid rgba(255,255,255,0.08)",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        gap: "10px",
-                        flexWrap: "wrap",
-                        marginBottom: "12px",
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontWeight: 900,
-                          fontSize: "16px",
-                        }}
-                      >
-                        Galería del partido
-                      </div>
-
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          alignItems: "center",
-                          flexWrap: "wrap",
-                        }}
-                      >
-                        {isAdmin && (
-                          <label
-                            style={{
-                              display: "inline-block",
-                              border: "1px solid rgba(255,255,255,0.12)",
-                              padding: "10px 14px",
-                              cursor: "pointer",
-                              background: "rgba(255,255,255,0.05)",
-                              borderRadius: "12px",
-                              fontWeight: 800,
-                            }}
-                          >
-                            Subir fotos
-                            <input
-                              type="file"
-                              accept="image/*"
-                              multiple
-                              style={{ display: "none" }}
-                              onChange={(e) => {
-                                const files = e.target.files;
-                                if (files && files.length > 0) {
-                                  handlePhotoUpload(m.id, files);
-                                }
-                              }}
-                            />
-                          </label>
-                        )}
-                      </div>
-                    </div>
-                  </div>
                 </div>
               );
             })
           )}
         </div>
       )}
+
+      {/* =========================
+          PANTALLA GALERÍA
+      ========================= */}
       {screen === "galeria" && (
         <div
           style={{
@@ -1424,6 +1669,97 @@ export default function Home() {
             gap: "16px",
           }}
         >
+          {isAdmin && (
+            <div
+              style={{
+                display: "grid",
+                gap: "14px",
+                padding: "16px",
+                borderRadius: "18px",
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              <div>
+                <div style={{ fontWeight: 900, fontSize: "16px" }}>
+                  Subir fotos a la galería
+                </div>
+                <div style={{ color: "#cbd5e1", marginTop: "4px" }}>
+                  Elegí el partido al que querés asociar las fotos.
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: "12px",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                }}
+              >
+                <select
+                  value={galleryUploadMatchId}
+                  onChange={(e) => setGalleryUploadMatchId(e.target.value)}
+                  style={{
+                    flex: "1 1 260px",
+                    minWidth: "220px",
+                    padding: "12px 14px",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "rgba(15,23,42,0.9)",
+                    color: "#fff",
+                    fontWeight: 700,
+                  }}
+                >
+                  <option value="">Seleccionar partido</option>
+                  {sortedMatches.map((match) => (
+                    <option key={match.id} value={match.id}>
+                      {formatDate(match.fecha_partido || match.fecha)} - Aubasa
+                      {" vs "}
+                      {match.rival}
+                    </option>
+                  ))}
+                </select>
+
+                <label
+                  style={{
+                    display: "inline-block",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    padding: "12px 16px",
+                    cursor: "pointer",
+                    background: "#facc15",
+                    color: "#111827",
+                    borderRadius: "12px",
+                    fontWeight: 900,
+                    opacity: galleryUploadMatchId ? 1 : 0.6,
+                  }}
+                >
+                  Subir fotos
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    style={{ display: "none" }}
+                    disabled={!galleryUploadMatchId}
+                    onChange={(e) => {
+                      const files = e.target.files;
+
+                      if (!galleryUploadMatchId) {
+                        alert("Primero seleccioná un partido");
+                        return;
+                      }
+
+                      if (files && files.length > 0) {
+                        handlePhotoUpload(galleryUploadMatchId, files);
+                        e.target.value = "";
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+          )}
+
           {galleryPhotos.length === 0 ? (
             <div
               style={{
@@ -1444,29 +1780,79 @@ export default function Home() {
               }}
             >
               {galleryPhotos.map((photo, i) => (
-                <img
+                <div
                   key={photo.id}
-                  src={photo.url}
-                  alt={`galeria-${i}`}
                   style={{
-                    width: "100%",
-                    height: "180px",
-                    objectFit: "cover",
+                    position: "relative",
                     borderRadius: "16px",
-                    cursor: "pointer",
+                    overflow: "hidden",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "rgba(255,255,255,0.03)",
                   }}
-                  onClick={() =>
-                    setViewer({
-                      images: galleryPhotos.map((p) => p.url),
-                      index: i,
-                    })
-                  }
-                />
+                >
+                  <img
+                    src={photo.url}
+                    alt={`galeria-${i}`}
+                    style={{
+                      width: "100%",
+                      height: "180px",
+                      objectFit: "cover",
+                      cursor: "pointer",
+                      display: "block",
+                    }}
+                    onClick={() =>
+                      setViewer({
+                        images: galleryPhotos.map((p) => p.url),
+                        index: i,
+                      })
+                    }
+                  />
+
+                  <div
+                    style={{
+                      padding: "10px 12px",
+                      background: "rgba(0,0,0,0.45)",
+                    }}
+                  >
+                    <div style={{ fontWeight: 800, fontSize: "14px" }}>
+                      Aubasa vs {photo.rival || "Sin rival"}
+                    </div>
+                    <div style={{ color: "#cbd5e1", fontSize: "13px" }}>
+                      {photo.fecha ? formatDate(photo.fecha) : "Sin fecha"}
+                    </div>
+                  </div>
+
+                  {isAdmin && (
+                    <button
+                      onClick={() =>
+                        handleDeletePhoto(photo.id, photo.storagePath)
+                      }
+                      style={{
+                        position: "absolute",
+                        top: "10px",
+                        right: "10px",
+                        border: "none",
+                        background: "rgba(220,38,38,0.9)",
+                        color: "#fff",
+                        padding: "8px 10px",
+                        borderRadius: "10px",
+                        cursor: "pointer",
+                        fontWeight: 900,
+                      }}
+                    >
+                      Borrar
+                    </button>
+                  )}
+                </div>
               ))}
             </div>
           )}
         </div>
       )}
+
+      {/* =========================
+          PANTALLA GOLEADORES
+      ========================= */}
       {screen === "goleadores" && (
         <div
           style={{
@@ -1593,6 +1979,10 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* =========================
+          PANTALLA PLANTEL
+      ========================= */}
       {screen === "plantel" && (
         <div
           style={{
@@ -1663,6 +2053,164 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* =========================
+          PLACEHOLDERS
+      ========================= */}
+      {screen === "tabla" && (
+        <div
+          style={{
+            padding: "24px",
+            borderRadius: "18px",
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          Próximamente: tabla de posiciones.
+        </div>
+      )}
+
+      {screen === "fixture" && (
+        <div
+          style={{
+            padding: "24px",
+            borderRadius: "18px",
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          Próximamente: fixture.
+        </div>
+      )}
+
+      {screen === "inicio" && (
+        <div
+          style={{
+            padding: "24px",
+            borderRadius: "18px",
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          Bienvenido a La Banda de Aubasa.
+        </div>
+      )}
+
+      {/* =========================
+          PANEL ADMIN / SESIÓN
+      ========================= */}
+      <div
+        style={{
+          marginTop: "40px",
+          padding: "16px",
+          borderRadius: "18px",
+          border: "1px solid rgba(255,255,255,0.08)",
+          background: "rgba(0,0,0,0.45)",
+          backdropFilter: "blur(6px)",
+        }}
+      >
+        {!userEmail ? (
+          <form
+            onSubmit={handleLogin}
+            style={{
+              display: "flex",
+              gap: "12px",
+              flexWrap: "wrap",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{
+                flex: "1 1 220px",
+                minWidth: "220px",
+                padding: "12px 14px",
+                borderRadius: "12px",
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "#111827",
+                color: "#f9fafb",
+                outline: "none",
+              }}
+            />
+
+            <input
+              type="password"
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{
+                flex: "1 1 220px",
+                minWidth: "220px",
+                padding: "12px 14px",
+                borderRadius: "12px",
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "#111827",
+                color: "#f9fafb",
+                outline: "none",
+              }}
+            />
+
+            <button
+              type="submit"
+              style={{
+                padding: "12px 18px",
+                borderRadius: "12px",
+                border: "none",
+                background: "#facc15",
+                color: "#111827",
+                fontWeight: 900,
+                cursor: "pointer",
+              }}
+            >
+              Iniciar sesión
+            </button>
+          </form>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "12px",
+              flexWrap: "wrap",
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                color: isAdmin ? "#86efac" : "#d1d5db",
+                fontWeight: 700,
+              }}
+            >
+              Sesión iniciada: {userEmail}
+              {isAdmin ? " (admin)" : ""}
+            </div>
+
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: "12px 18px",
+                borderRadius: "12px",
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "#111827",
+                color: "#f9fafb",
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* =========================
+          LIGHTBOX / VISOR DE FOTOS
+      ========================= */}
       {viewer && (
         <Lightbox
           images={viewer.images}

@@ -2361,14 +2361,19 @@ right: "16px",
           }}
         >
           <span
-            style={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {row.team}
-          </span>
+  style={{
+    position: "sticky",
+    left: 0,
+    background: "#111827",
+    paddingRight: "6px",
+    zIndex: 2,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  }}
+>
+  {row.team}
+</span>
 
           {esAubasa && (
             <span

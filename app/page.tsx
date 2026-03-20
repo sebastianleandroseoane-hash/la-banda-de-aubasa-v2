@@ -682,34 +682,21 @@ right: "16px",
   }}
 />
       <div
-        style={{
-          position: "relative",
-          borderRadius: "32px",
-          padding: "64px 24px 44px",
-          marginBottom: "24px",
-          textAlign: "center",
-          overflow: "hidden",
-          border: "1px solid rgba(250,204,21,0.18)",
-          boxShadow: "0 30px 60px rgba(0,0,0,0.35)",
-          background:
-            featuredPhoto
-              ? `linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.85)), url('${featuredPhoto}') center/cover no-repeat`
-              : "linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.85)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage: "url('/escudo.png')",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundSize: "420px",
-            opacity: 0.09,
-            filter: "blur(1px)",
-            pointerEvents: "none",
-          }}
-        />
+  style={{
+    position: "relative",
+    borderRadius: "32px",
+    padding: "64px 24px 44px",
+    marginBottom: "24px",
+    textAlign: "center",
+    overflow: "hidden",
+    border: "1px solid rgba(250,204,21,0.18)",
+    boxShadow: "0 30px 60px rgba(0,0,0,0.35)",
+    backgroundImage: "url('/foto-equipo.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+        
 
         <div
           style={{
@@ -735,16 +722,7 @@ right: "16px",
             <span>Fútbol · SUTPA · AUBASA</span>
           </div>
 
-          <img
-            src="/escudo.png"
-            alt="Escudo La Banda de Aubasa"
-            style={{
-              width: "118px",
-              marginBottom: "14px",
-              filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.35))",
-            }}
-          />
-
+          
           <h1
             style={{
               margin: 0,
@@ -773,14 +751,15 @@ right: "16px",
           {featuredMatch && (
             <div
               style={{
-                maxWidth: "620px",
-                margin: "26px auto 0",
-                padding: "18px 18px 16px",
-                borderRadius: "18px",
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.10)",
-                boxShadow: "0 16px 36px rgba(0,0,0,0.22)",
-              }}
+  maxWidth: "620px",
+  margin: "26px auto 0",
+  padding: "18px 18px 16px",
+  borderRadius: "18px",
+  background: "rgba(0,0,0,0.72)",
+  backdropFilter: "blur(8px)",
+  border: "1px solid rgba(255,255,255,0.12)",
+  boxShadow: "0 16px 36px rgba(0,0,0,0.35)",
+}}
             >
               <div
                 style={{

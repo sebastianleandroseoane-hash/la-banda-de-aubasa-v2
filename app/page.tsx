@@ -917,6 +917,37 @@ useEffect(() => {
 )}{/* =========================
           NAVEGACIÓN PRINCIPAL
       ========================= */}
+      {screen !== "inicio" && (
+  <div style={{ marginTop: "20px" }}>
+    
+    <button
+      onClick={() => setScreen("inicio")}
+      style={{
+        marginBottom: "16px",
+        padding: "10px 14px",
+        borderRadius: "10px",
+        border: "none",
+        background: "#facc15",
+        color: "#111827",
+        fontWeight: 800,
+        cursor: "pointer"
+      }}
+    >
+      ← Volver
+    </button>
+
+    <div>
+      {screen === "fixture" && <div>Fixture</div>}
+      {screen === "grupos" && <div>Grupos</div>}
+      {screen === "goleadores" && <div>Goleadores</div>}
+      {screen === "partidos" && <div>Partidos</div>}
+      {screen === "plantel" && <div>Plantel</div>}
+      {screen === "videos" && <div>Videos</div>}
+      {screen === "galeria" && <div>Galería</div>}
+    </div>
+
+  </div>
+)}
       <div
         style={{
           display: "flex",

@@ -733,185 +733,188 @@ useEffect(() => {
           "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
       }}
     >
-      {/* =========================
-          HERO PRINCIPAL
-      ========================= */}
-      {/* Logo personal (esquina) */}
-<img
-  src="/rosky.jpeg"
-  alt="Rosky Seoane"
-  style={{
-    position: "absolute",
-    top: "16px",
-right: "16px",
-    width: "48px",
-    height: "48px",
-    borderRadius: "50%",
-    opacity: 0.85,
-    boxShadow: "0 6px 18px rgba(0,0,0,0.4)",
-    border: "2px solid rgba(255,255,255,0.2)",
-    zIndex: 2,
-  }}
-/>
-      <div
-  style={{
-    position: "relative",
-    borderRadius: "32px",
-    padding: "64px 24px 44px",
-    marginBottom: "24px",
-    textAlign: "center",
-    overflow: "hidden",
-    border: "1px solid rgba(250,204,21,0.18)",
-    boxShadow: "0 30px 60px rgba(0,0,0,0.35)",
-    backgroundImage: "url('/foto-equipo.png')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  }}
->
-        
+       {screen === "inicio" && (
+  <>
+    {/* =========================
+        HERO PRINCIPAL
+    ========================= */}
 
+    {/* Logo personal (esquina) */}
+    <img
+      src="/rosky.jpeg"
+      alt="Rosky Seoane"
+      style={{
+        position: "absolute",
+        top: "16px",
+        right: "16px",
+        width: "48px",
+        height: "48px",
+        borderRadius: "50%",
+        opacity: 0.85,
+        boxShadow: "0 6px 18px rgba(0,0,0,0.4)",
+        border: "2px solid rgba(255,255,255,0.2)",
+        zIndex: 2,
+      }}
+    />
+
+    <div
+      style={{
+        position: "relative",
+        borderRadius: "32px",
+        padding: "64px 24px 44px",
+        marginBottom: "24px",
+        textAlign: "center",
+        overflow: "hidden",
+        border: "1px solid rgba(250,204,21,0.18)",
+        boxShadow: "0 30px 60px rgba(0,0,0,0.35)",
+        backgroundImage: "url('/foto-equipo.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
         <div
           style={{
-            position: "relative",
-            zIndex: 1,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "12px",
+            padding: "10px 18px",
+            borderRadius: "999px",
+            background: "rgba(250,204,21,0.12)",
+            border: "1px solid rgba(250,204,21,0.22)",
+            color: "#fde68a",
+            fontWeight: 900,
+            marginBottom: "18px",
           }}
         >
+          <span>⚽</span>
+          <span>Fútbol · SUTPA · AUBASA</span>
+        </div>
+
+        <h1
+          style={{
+            margin: 0,
+            fontSize: "clamp(34px, 6vw, 58px)",
+            fontWeight: 900,
+            color: "#facc15",
+            letterSpacing: "-0.03em",
+            textShadow: "0 6px 22px rgba(0,0,0,0.32)",
+          }}
+        >
+          LA BANDA DE AUBASA
+        </h1>
+
+        <p
+          style={{
+            marginTop: "12px",
+            marginBottom: 0,
+            color: "#e5e7eb",
+            fontWeight: 600,
+            fontSize: "16px",
+          }}
+        >
+          Fixture · Goleadores · Partidos · Plantel · Videos · Galería
+        </p>
+
+        {featuredMatch && (
           <div
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "12px",
-              padding: "10px 18px",
-              borderRadius: "999px",
-              background: "rgba(250,204,21,0.12)",
-              border: "1px solid rgba(250,204,21,0.22)",
-              color: "#fde68a",
-              fontWeight: 900,
-              marginBottom: "18px",
+              maxWidth: "620px",
+              margin: "26px auto 0",
+              padding: "18px 18px 16px",
+              borderRadius: "18px",
+              background: "rgba(0,0,0,0.72)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              boxShadow: "0 16px 36px rgba(0,0,0,0.35)",
             }}
           >
-            <span>⚽</span>
-            <span>Fútbol · SUTPA · AUBASA</span>
-          </div>
-
-          
-          <h1
-            style={{
-              margin: 0,
-              fontSize: "clamp(34px, 6vw, 58px)",
-              fontWeight: 900,
-              color: "#facc15",
-              letterSpacing: "-0.03em",
-              textShadow: "0 6px 22px rgba(0,0,0,0.32)",
-            }}
-          >
-            LA BANDA DE AUBASA
-          </h1>
-
-          <p
-            style={{
-              marginTop: "12px",
-              marginBottom: 0,
-              color: "#e5e7eb",
-              fontWeight: 600,
-              fontSize: "16px",
-            }}
-          >
-            Fixture · Goleadores · Partidos · Plantel · Videos · Galería
-          </p>
-
-          {featuredMatch && (
             <div
               style={{
-  maxWidth: "620px",
-  margin: "26px auto 0",
-  padding: "18px 18px 16px",
-  borderRadius: "18px",
-  background: "rgba(0,0,0,0.72)",
-  backdropFilter: "blur(8px)",
-  border: "1px solid rgba(255,255,255,0.12)",
-  boxShadow: "0 16px 36px rgba(0,0,0,0.35)",
-}}
+                color: "#fde68a",
+                fontWeight: 900,
+                fontSize: "13px",
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
+              }}
             >
-              <div
-                style={{
-                  color: "#fde68a",
-                  fontWeight: 900,
-                  fontSize: "13px",
-                  letterSpacing: "0.04em",
-                  textTransform: "uppercase",
-                }}
-              >
-                {getResultLabel(featuredMatch)}
-              </div>
+              {getResultLabel(featuredMatch)}
+            </div>
 
-              <div
-                style={{
-                  fontSize: "24px",
-                  fontWeight: 900,
-                  marginTop: "8px",
-                }}
-              >
-                Aubasa vs {featuredMatch.rival}
-              </div>
+            <div
+              style={{
+                fontSize: "24px",
+                fontWeight: 900,
+                marginTop: "8px",
+              }}
+            >
+              Aubasa vs {featuredMatch.rival}
+            </div>
 
-              <div
-                style={{
-                  color: "#cbd5e1",
-                  marginTop: "8px",
-                  fontWeight: 600,
-                }}
-              >
-                {formatDate(featuredMatch.fecha_partido || featuredMatch.fecha)}
-              </div>
-
-              {featuredMatch.resultado !== "Pendiente" && (
-                <>
-                  <div
-                    style={{
-                      marginTop: "12px",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      padding: "10px 14px",
-                      borderRadius: "999px",
-                      background: "rgba(255,255,255,0.06)",
-                      border: "1px solid rgba(255,255,255,0.08)",
-                      fontWeight: 800,
-                    }}
-                  >
-                    <span>Resultado:</span>
-                    <span>
-                      {featuredMatch.goles_a_favor ?? 0} -{" "}
-                      {featuredMatch.goles_en_contra ?? 0}
-                    </span>
-                  </div>
-
-                  {featuredScorers.length > 0 && (
-                    <div
-                      style={{
-                        marginTop: "14px",
-                        color: "#e5e7eb",
-                        fontWeight: 700,
-                        fontSize: "14px",
-                      }}
-                    >
-                      Goles:{" "}
-                      {featuredScorers
-                        .map((s) =>
-                          s.goals > 1 ? `${s.name} (${s.goals})` : s.name
-                        )
-                        .join(", ")}
-                    </div>
-                  )}
-                </>
+            <div
+              style={{
+                color: "#cbd5e1",
+                marginTop: "8px",
+                fontWeight: 600,
+              }}
+            >
+              {formatDate(
+                featuredMatch.fecha_partido || featuredMatch.fecha
               )}
             </div>
-          )}
-        </div>
-      </div>
 
-            {/* =========================
+            {featuredMatch.resultado !== "Pendiente" && (
+              <>
+                <div
+                  style={{
+                    marginTop: "12px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "10px 14px",
+                    borderRadius: "999px",
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    fontWeight: 800,
+                  }}
+                >
+                  <span>Resultado:</span>
+                  <span>
+                    {featuredMatch.goles_a_favor ?? 0} -{" "}
+                    {featuredMatch.goles_en_contra ?? 0}
+                  </span>
+                </div>
+
+                {featuredScorers.length > 0 && (
+                  <div
+                    style={{
+                      marginTop: "14px",
+                      color: "#e5e7eb",
+                      fontWeight: 700,
+                      fontSize: "14px",
+                    }}
+                  >
+                    Goles:{" "}
+                    {featuredScorers
+                      .map((s) =>
+                        s.goals > 1 ? `${s.name} (${s.goals})` : s.name
+                      )
+                      .join(", ")}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  </>
+)}{/* =========================
           NAVEGACIÓN PRINCIPAL
       ========================= */}
       <div

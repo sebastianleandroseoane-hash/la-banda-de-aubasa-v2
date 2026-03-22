@@ -252,7 +252,7 @@ export default function Home() {
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [installPrompt, setInstallPrompt] = useState<Event | null>(null);
 
   const [goalInputs, setGoalInputs] = useState<Record<string, string>>({});
   const [goalSelections, setGoalSelections] = useState<
@@ -381,7 +381,7 @@ useEffect(() => {
     loadMatches();
   }, []);
 useEffect(() => {
-  const handler = (e: any) => {
+  const handler = (e: Event) => {
     e.preventDefault();
     setInstallPrompt(e);
   };
@@ -840,9 +840,14 @@ useEffect(() => {
     return;
   }
 
-  await installPrompt.prompt();
-  await installPrompt.userChoice;
-  setInstallPrompt(null);
+ const promptEvent = installPrompt as Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: string; platform: string }>;
+};
+
+await promptEvent.prompt();
+await promptEvent.userChoice;
+setInstallPrompt(null);
 }}
   style={{
     marginTop: "16px",

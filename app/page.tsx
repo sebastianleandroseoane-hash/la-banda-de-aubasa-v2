@@ -253,7 +253,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<Event | null>(null);
-
+const [isInstalled, setIsInstalled] = useState(false);
   const [goalInputs, setGoalInputs] = useState<Record<string, string>>({});
   const [goalSelections, setGoalSelections] = useState<
     Record<string, string[]>
@@ -381,15 +381,33 @@ useEffect(() => {
     loadMatches();
   }, []);
 useEffect(() => {
+  const checkInstalled = () => {
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      ("standalone" in window.navigator &&
+        (window.navigator as Navigator & { standalone?: boolean }).standalone === true);
+
+    setIsInstalled(standalone);
+  };
+
+  checkInstalled();
+
   const handler = (e: Event) => {
     e.preventDefault();
     setInstallPrompt(e);
   };
 
+  const handleAppInstalled = () => {
+    setIsInstalled(true);
+    setInstallPrompt(null);
+  };
+
   window.addEventListener("beforeinstallprompt", handler);
+  window.addEventListener("appinstalled", handleAppInstalled);
 
   return () => {
     window.removeEventListener("beforeinstallprompt", handler);
+    window.removeEventListener("appinstalled", handleAppInstalled);
   };
 }, []);
   const sortedMatches = useMemo(() => {
@@ -832,36 +850,47 @@ useEffect(() => {
         >
           Fixture · Goleadores · Partidos · Plantel · Videos · Galería
         </p>
-<button
-  type="button"
- onClick={async () => {
-  if (!installPrompt) {
-    alert("Instalación no disponible en este dispositivo");
-    return;
-  }
+{!isInstalled && (
+  <div
+    style={{
+      marginTop: "18px",
+      marginBottom: "10px",
+      display: "flex",
+      justifyContent: "center",
+    }}
+  >
+    <button
+      type="button"
+      onClick={async () => {
+        if (!installPrompt) {
+          alert("Instalación no disponible en este dispositivo");
+          return;
+        }
 
- const promptEvent = installPrompt as Event & {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: string; platform: string }>;
-};
+        const promptEvent = installPrompt as Event & {
+          prompt: () => Promise<void>;
+          userChoice: Promise<{ outcome: string; platform: string }>;
+        };
 
-await promptEvent.prompt();
-await promptEvent.userChoice;
-setInstallPrompt(null);
-}}
-  style={{
-    marginTop: "16px",
-    padding: "12px 16px",
-    borderRadius: "12px",
-    border: "none",
-    background: "#facc15",
-    color: "#111827",
-    fontWeight: 900,
-    cursor: "pointer",
-  }}
->
-  Instalar app
-</button>
+        await promptEvent.prompt();
+        await promptEvent.userChoice;
+        setInstallPrompt(null);
+      }}
+      style={{
+        padding: "12px 18px",
+        borderRadius: "999px",
+        border: "1px solid rgba(255,255,255,0.18)",
+        background: "rgba(17,24,39,0.88)",
+        color: "#ffffff",
+        fontWeight: 900,
+        cursor: "pointer",
+        boxShadow: "0 10px 24px rgba(0,0,0,0.22)",
+      }}
+    >
+      Instalar app
+    </button>
+  </div>
+)}
         {featuredMatch && (
           <div
             style={{

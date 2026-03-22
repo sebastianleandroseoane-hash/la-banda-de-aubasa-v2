@@ -286,8 +286,6 @@ export default function Home() {
   const liveUrl =
   "https://www.youtube.com/live/IsKIWA1rhcM";
   const latestVideoUrl = "https://youtu.be/gT-qINQNk8Q?si=Q7VIOmGEHZjy2k3H";
-  const recordedVideosUrl = "https://www.youtube.com/watch?v=IsKIWA1rhcM&list=PL-hWd4f91tyHa2eM_dRL7g_sFjErWu98-";
-const channelUrl = "https://www.youtube.com/channel/UCRY5fjL8MDQ-MUUYxTk_wLw";
 
   useEffect(() => {
     async function loadUser() {
@@ -1287,24 +1285,25 @@ right: "16px",
               </a>
 
               <a
-  href={recordedVideosUrl}
-  target="_blank"
-  rel="noreferrer"
-  style={{
-    padding: "14px 20px",
-    borderRadius: "16px",
-    textDecoration: "none",
-    fontWeight: 900,
-    background: "#facc15",
-    color: "#111827",
-  }}
->
-  Ver videos grabados
-</a>
-</div>
-</div>
-</div>
-)}
+                href={latestVideoUrl}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  padding: "14px 20px",
+                  borderRadius: "16px",
+                  textDecoration: "none",
+                  fontWeight: 900,
+                  background: "#facc15",
+                  color: "#111827",
+                }}
+              >
+                Ver último video
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* =========================
           PANTALLA PARTIDOS
       ========================= */}
@@ -2113,315 +2112,10 @@ right: "16px",
         </div>
       )}
 
-     {/* =========================
-    GRUPOS
-========================= */}
-{screen === "grupos" && (
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-      gap: "18px",
-    }}
-  >
-    {[
-      {
-        nombre: "Grupo A",
-        equipos: [
-          "Sutpa Pilar",
-          "Hudson F.C",
-          "Banda de Aubasa",
-          "Guidoneta",
-        ],
-        resultados: [
-          {
-            local: "Sutpa Pilar",
-            golesLocal: 0,
-            visitante: "Hudson F.C",
-            golesVisitante: 1,
-          },
-          {
-            local: "Banda de Aubasa",
-            golesLocal: 0,
-            visitante: "Guidoneta",
-            golesVisitante: 1,
-          },
-        ],
-      },
-      {
-        nombre: "Grupo B",
-        equipos: [
-          "Obrador 202",
-          "Dep. Riccheri",
-          "El Docke",
-          "El Oeste",
-        ],
-        resultados: [
-          {
-            local: "Obrador 202",
-            golesLocal: 1,
-            visitante: "Dep. Riccheri",
-            golesVisitante: 2,
-          },
-          {
-            local: "El Docke",
-            golesLocal: 0,
-            visitante: "El Oeste",
-            golesVisitante: 5,
-          },
-        ],
-      },
-      {
-        nombre: "Grupo C",
-        equipos: ["Flavioneta", "Croacia", "Obrador Ruta 4"],
-        resultados: [
-          {
-            local: "Flavioneta",
-            golesLocal: 1,
-            visitante: "Croacia",
-            golesVisitante: 1,
-          },
-        ],
-        libre: "Obrador Ruta 4",
-      },
-    ].map((grupo) => (
-      <div
-        key={grupo.nombre}
-        style={{
-          padding: "20px",
-          borderRadius: "22px",
-          background: "rgba(17,24,39,0.88)",
-          border: "1px solid rgba(255,255,255,0.08)",
-          boxShadow: "0 16px 36px rgba(0,0,0,0.18)",
-          display: "grid",
-          gap: "16px",
-          overflowX: "auto",
-        }}
-      >
-        <div
-          style={{
-            display: "inline-block",
-            width: "fit-content",
-            padding: "8px 14px",
-            borderRadius: "999px",
-            background: "rgba(250,204,21,0.12)",
-            border: "1px solid rgba(250,204,21,0.22)",
-            color: "#fde68a",
-            fontWeight: 900,
-            fontSize: "14px",
-          }}
-        >
-          {grupo.nombre}
-        </div>
-
-        <div style={{ display: "grid", gap: "8px" }}>
-          <div
-            style={{
-              fontWeight: 900,
-              color: "#fde68a",
-              fontSize: "15px",
-            }}
-          >
-            Tabla de posiciones
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "44px minmax(140px, 1fr) 44px 44px 44px 44px 44px 44px 44px 52px",
-              gap: "6px",
-              padding: "10px 8px",
-              borderRadius: "14px",
-              background: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              fontWeight: 900,
-              color: "#fde68a",
-              fontSize: "12px",
-              alignItems: "center",
-            }}
-          >
-            <div>Pos</div>
-            <div>Equipo</div>
-            <div>PJ</div>
-            <div>PG</div>
-            <div>PE</div>
-            <div>PP</div>
-            <div>GF</div>
-            <div>GC</div>
-            <div>DG</div>
-            <div>PTS</div>
-          </div>
-
-          {buildGroupTable(grupo.equipos, grupo.resultados).map((row, index) => {
-            const esAubasa = row.team === "Banda de Aubasa";
-
-            return (
-              <div
-                key={row.team}
-                style={{
-                  display: "grid",
-                  gridTemplateColumns:
-                    "32px minmax(110px, 1fr) 32px 32px 32px 32px 32px 32px 32px 40px",
-                  gap: "6px",
-                  alignItems: "center",
-                  padding: "12px 8px",
-                  borderRadius: "14px",
-                  background: esAubasa
-                    ? "linear-gradient(90deg, rgba(250,204,21,0.18), rgba(255,255,255,0.04))"
-                    : "rgba(255,255,255,0.04)",
-                  border: esAubasa
-                    ? "1px solid rgba(250,204,21,0.28)"
-                    : "1px solid rgba(255,255,255,0.06)",
-                  fontWeight: esAubasa ? 900 : 700,
-                  fontSize: "13px",
-                }}
-              >
-                <div
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 900,
-                    color: esAubasa ? "#fde68a" : "#f9fafb",
-                  }}
-                >
-                  {index + 1}
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "8px",
-                    minWidth: 0,
-                  }}
-                >
-                  <span
-                    style={{
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {row.team}
-                  </span>
-
-                  {esAubasa && (
-                    <span
-                      style={{
-                        padding: "4px 8px",
-                        borderRadius: "999px",
-                        background: "#facc15",
-                        color: "#111827",
-                        fontSize: "11px",
-                        fontWeight: 900,
-                        flexShrink: 0,
-                      }}
-                    >
-                      AUBASA
-                    </span>
-                  )}
-                </div>
-
-                <div style={{ textAlign: "center" }}>{row.pj}</div>
-                <div style={{ textAlign: "center" }}>{row.pg}</div>
-                <div style={{ textAlign: "center" }}>{row.pe}</div>
-                <div style={{ textAlign: "center" }}>{row.pp}</div>
-                <div style={{ textAlign: "center" }}>{row.gf}</div>
-                <div style={{ textAlign: "center" }}>{row.gc}</div>
-                <div style={{ textAlign: "center" }}>{row.dg}</div>
-                <div style={{ textAlign: "center", fontWeight: 900 }}>
-                  {row.pts}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div style={{ display: "grid", gap: "8px", overflowX: "auto" }}>
-          <div
-            style={{
-              fontWeight: 900,
-              color: "#fde68a",
-              fontSize: "15px",
-            }}
-          >
-            Resultados
-          </div>
-
-          {grupo.resultados.map((partido, index) => {
-            const participaAubasa =
-              partido.local === "Banda de Aubasa" ||
-              partido.visitante === "Banda de Aubasa";
-
-            return (
-              <div
-                key={`${grupo.nombre}-${index}`}
-                style={{
-                  padding: "14px 16px",
-                  borderRadius: "16px",
-                  background: participaAubasa
-                    ? "linear-gradient(90deg, rgba(250,204,21,0.16), rgba(255,255,255,0.04))"
-                    : "rgba(255,255,255,0.04)",
-                  border: participaAubasa
-                    ? "1px solid rgba(250,204,21,0.24)"
-                    : "1px solid rgba(255,255,255,0.06)",
-                  fontWeight: 800,
-                }}
-              >
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr auto 1fr",
-                    gap: "10px",
-                    alignItems: "center",
-                  }}
-                >
-                  <div style={{ textAlign: "right" }}>{partido.local}</div>
-
-                  <div
-                    style={{
-                      padding: "8px 12px",
-                      borderRadius: "12px",
-                      background: "rgba(0,0,0,0.28)",
-                      minWidth: "72px",
-                      textAlign: "center",
-                      fontWeight: 900,
-                      color: "#f9fafb",
-                    }}
-                  >
-                    {partido.golesLocal} - {partido.golesVisitante}
-                  </div>
-
-                  <div>{partido.visitante}</div>
-                </div>
-              </div>
-            );
-          })}
-
-          {"libre" in grupo && grupo.libre && (
-            <div
-              style={{
-                padding: "12px 14px",
-                borderRadius: "14px",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                fontWeight: 700,
-                color: "#cbd5e1",
-              }}
-            >
-              Libre: {grupo.libre}
-            </div>
-          )}
-        </div>
-      </div>
-    ))}
-  </div>
-)}
-{/* =========================
-    FIXTURE
-========================= */}
-{screen === "fixture" && (
+      {/* =========================
+          PLACEHOLDERS
+      ========================= */}
+               {screen === "grupos" && (
   <div style={{ display: "grid", gap: "18px" }}>
     <div
       style={{
@@ -2487,8 +2181,313 @@ right: "16px",
         ))}
       </div>
     </div>
+
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+        gap: "18px",
+      }}
+    >
+      {[
+        {
+          nombre: "Grupo A",
+          equipos: [
+            "Sutpa Pilar",
+            "Hudson F.C",
+            "Banda de Aubasa",
+            "Guidoneta",
+          ],
+          resultados: [
+            {
+              local: "Sutpa Pilar",
+              golesLocal: 0,
+              visitante: "Hudson F.C",
+              golesVisitante: 1,
+            },
+            {
+              local: "Banda de Aubasa",
+              golesLocal: 0,
+              visitante: "Guidoneta",
+              golesVisitante: 1,
+            },
+          ],
+        },
+        {
+          nombre: "Grupo B",
+          equipos: [
+            "Obrador 202",
+            "Dep. Riccheri",
+            "El Docke",
+            "El Oeste",
+          ],
+          resultados: [
+            {
+              local: "Obrador 202",
+              golesLocal: 1,
+              visitante: "Dep. Riccheri",
+              golesVisitante: 2,
+            },
+            {
+              local: "El Docke",
+              golesLocal: 0,
+              visitante: "El Oeste",
+              golesVisitante: 5,
+            },
+          ],
+        },
+        {
+          nombre: "Grupo C",
+          equipos: ["Flavioneta", "Croacia", "Obrador Ruta 4"],
+          resultados: [
+            {
+              local: "Flavioneta",
+              golesLocal: 1,
+              visitante: "Croacia",
+              golesVisitante: 1,
+            },
+          ],
+          libre: "Obrador Ruta 4",
+        },
+      ].map((grupo) => (
+        <div
+          key={grupo.nombre}
+          style={{
+            padding: "20px",
+            borderRadius: "22px",
+            background: "rgba(17,24,39,0.88)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            boxShadow: "0 16px 36px rgba(0,0,0,0.18)",
+            display: "grid",
+            gap: "16px",
+            overflowX: "auto",
+          }}
+        >
+          <div
+            style={{
+              display: "inline-block",
+              width: "fit-content",
+              padding: "8px 14px",
+              borderRadius: "999px",
+              background: "rgba(250,204,21,0.12)",
+              border: "1px solid rgba(250,204,21,0.22)",
+              color: "#fde68a",
+              fontWeight: 900,
+              fontSize: "14px",
+            }}
+          >
+            {grupo.nombre}
+            </div>
+         <div style={{ display: "grid", gap: "8px" }}>
+  <div
+    style={{
+      fontWeight: 900,
+      color: "#fde68a",
+      fontSize: "15px",
+    }}
+  >
+    Tabla de posiciones
   </div>
-)}
+
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns:
+        "44px minmax(140px, 1fr) 44px 44px 44px 44px 44px 44px 44px 52px",
+      gap: "6px",
+      padding: "10px 8px",
+      borderRadius: "14px",
+      background: "rgba(255,255,255,0.06)",
+      border: "1px solid rgba(255,255,255,0.08)",
+      fontWeight: 900,
+      color: "#fde68a",
+      fontSize: "12px",
+      alignItems: "center",
+    }}
+  >
+    <div>Pos</div>
+    <div>Equipo</div>
+    <div>PJ</div>
+    <div>PG</div>
+    <div>PE</div>
+    <div>PP</div>
+    <div>GF</div>
+    <div>GC</div>
+    <div>DG</div>
+    <div>PTS</div>
+  </div>
+
+  {buildGroupTable(grupo.equipos, grupo.resultados).map((row, index) => {
+    const esAubasa = row.team === "Banda de Aubasa";
+
+    return (
+      <div
+        key={row.team}
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+  "32px minmax(110px, 1fr) 32px 32px 32px 32px 32px 32px 32px 40px",
+          gap: "6px",
+          alignItems: "center",
+          padding: "12px 8px",
+          borderRadius: "14px",
+          background: esAubasa
+            ? "linear-gradient(90deg, rgba(250,204,21,0.18), rgba(255,255,255,0.04))"
+            : "rgba(255,255,255,0.04)",
+          border: esAubasa
+            ? "1px solid rgba(250,204,21,0.28)"
+            : "1px solid rgba(255,255,255,0.06)",
+          fontWeight: esAubasa ? 900 : 700,
+          fontSize: "13px",
+        }}
+      >
+        <div
+          style={{
+            textAlign: "center",
+            fontWeight: 900,
+            color: esAubasa ? "#fde68a" : "#f9fafb",
+          }}
+        >
+          {index + 1}
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "8px",
+            minWidth: 0,
+          }}
+        >
+          <span
+  style={{
+    position: "sticky",
+    left: 0,
+    background: "#111827",
+    paddingRight: "6px",
+    zIndex: 2,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  }}
+>
+  {row.team}
+</span>
+
+          {esAubasa && (
+            <span
+              style={{
+                padding: "4px 8px",
+                borderRadius: "999px",
+                background: "#facc15",
+                color: "#111827",
+                fontSize: "11px",
+                fontWeight: 900,
+                flexShrink: 0,
+              }}
+            >
+              AUBASA
+            </span>
+          )}
+        </div>
+
+        <div style={{ textAlign: "center" }}>{row.pj}</div>
+        <div style={{ textAlign: "center" }}>{row.pg}</div>
+        <div style={{ textAlign: "center" }}>{row.pe}</div>
+        <div style={{ textAlign: "center" }}>{row.pp}</div>
+        <div style={{ textAlign: "center" }}>{row.gf}</div>
+        <div style={{ textAlign: "center" }}>{row.gc}</div>
+        <div style={{ textAlign: "center" }}>{row.dg}</div>
+        <div style={{ textAlign: "center", fontWeight: 900 }}>
+          {row.pts}
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+          <div style={{ display: "grid", gap: "8px", overflowX: "auto" }}>
+            <div
+              style={{
+                fontWeight: 900,
+                color: "#fde68a",
+                fontSize: "15px",
+              }}
+            >
+              Resultados
+            </div>
+
+            {grupo.resultados.map((partido, index) => {
+              const participaAubasa =
+                partido.local === "Banda de Aubasa" ||
+                partido.visitante === "Banda de Aubasa";
+
+              return (
+                <div
+                  key={`${grupo.nombre}-${index}`}
+                  style={{
+                    padding: "14px 16px",
+                    borderRadius: "16px",
+                    background: participaAubasa
+                      ? "linear-gradient(90deg, rgba(250,204,21,0.16), rgba(255,255,255,0.04))"
+                      : "rgba(255,255,255,0.04)",
+                    border: participaAubasa
+                      ? "1px solid rgba(250,204,21,0.24)"
+                      : "1px solid rgba(255,255,255,0.06)",
+                    fontWeight: 800,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr auto 1fr",
+                      gap: "10px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div style={{ textAlign: "right" }}>{partido.local}</div>
+
+                    <div
+                      style={{
+                        padding: "8px 12px",
+                        borderRadius: "12px",
+                        background: "rgba(0,0,0,0.28)",
+                        minWidth: "72px",
+                        textAlign: "center",
+                        fontWeight: 900,
+                        color: "#f9fafb",
+                      }}
+                    >
+                      {partido.golesLocal} - {partido.golesVisitante}
+                    </div>
+
+                    <div>{partido.visitante}</div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {"libre" in grupo && grupo.libre && (
+              <div
+                style={{
+                  padding: "12px 14px",
+                  borderRadius: "14px",
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  fontWeight: 700,
+                  color: "#cbd5e1",
+                }}
+              >
+                Libre: {grupo.libre}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}   
       {/* =========================
           PANEL ADMIN / SESIÓN
       ========================= */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createMatch, getMatches, updateMatch } from "./lib/api/matches";
 import { deleteMatchPhoto, uploadMatchPhotos } from "./lib/api/photos";
 import { replaceScorers } from "./lib/api/scorers";
@@ -245,6 +245,7 @@ export default function Home() {
   const [matches, setMatches] = useState<MatchRow[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [galleryUploadMatchId, setGalleryUploadMatchId] = useState("");
+  const contentRef = useRef<HTMLDivElement | null>(null);
   const [viewer, setViewer] = useState<{
     images: string[];
     index: number;
@@ -931,7 +932,15 @@ right: "16px",
           return (
             <button
               key={tab.key}
-              onClick={() => setScreen(tab.key)}
+              onClick={() => {
+  setScreen(tab.key);
+  setTimeout(() => {
+    contentRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 50);
+}}
               style={{
                 border: isActive
                   ? "1px solid rgba(250,204,21,0.85)"
@@ -1257,7 +1266,7 @@ right: "16px",
           PANTALLA VIDEOS / VIVO
       ========================= */}
       {screen === "videos" && (
-        <div style={{ display: "grid", gap: "20px" }}>
+        <div ref={contentRef} style={{ display: "grid", gap: "20px" }}>
           <div
             style={{
               border: "1px solid rgba(255,255,255,0.08)",

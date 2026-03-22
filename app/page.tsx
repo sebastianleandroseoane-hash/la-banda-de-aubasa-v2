@@ -1301,6 +1301,21 @@ right: "16px",
 >
   Ver videos grabados
 </a>
+<a
+  href={channelUrl}
+  target="_blank"
+  rel="noreferrer"
+  style={{
+    padding: "14px 20px",
+    borderRadius: "16px",
+    textDecoration: "none",
+    fontWeight: 900,
+    background: "#22c55e",
+    color: "#052e16",
+  }}
+>
+  Ver canal
+</a>
 </div>
 </div>
 </div>

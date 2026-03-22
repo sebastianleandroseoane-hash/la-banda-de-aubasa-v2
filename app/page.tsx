@@ -368,7 +368,14 @@ const channelUrl = "https://www.youtube.com/channel/UCRY5fjL8MDQ-MUUYxTk_wLw";
       setLoading(false);
     }
   }
+useEffect(() => {
+  if (!contentRef.current) return;
 
+  contentRef.current.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}, [screen]);
   useEffect(() => {
     loadMatches();
   }, []);
@@ -932,15 +939,7 @@ right: "16px",
           return (
             <button
               key={tab.key}
-              onClick={() => {
-  setScreen(tab.key);
-  setTimeout(() => {
-    contentRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }, 50);
-}}
+              onClick={() => setScreen(tab.key)}
               style={{
                 border: isActive
                   ? "1px solid rgba(250,204,21,0.85)"

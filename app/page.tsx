@@ -252,6 +252,7 @@ export default function Home() {
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
 
   const [goalInputs, setGoalInputs] = useState<Record<string, string>>({});
   const [goalSelections, setGoalSelections] = useState<
@@ -379,7 +380,18 @@ useEffect(() => {
   useEffect(() => {
     loadMatches();
   }, []);
+useEffect(() => {
+  const handler = (e: any) => {
+    e.preventDefault();
+    setInstallPrompt(e);
+  };
 
+  window.addEventListener("beforeinstallprompt", handler);
+
+  return () => {
+    window.removeEventListener("beforeinstallprompt", handler);
+  };
+}, []);
   const sortedMatches = useMemo(() => {
     return [...matches].sort((a, b) => {
       const da = new Date(
@@ -820,7 +832,31 @@ useEffect(() => {
         >
           Fixture · Goleadores · Partidos · Plantel · Videos · Galería
         </p>
+<button
+  type="button"
+ onClick={async () => {
+  if (!installPrompt) {
+    alert("Instalación no disponible en este dispositivo");
+    return;
+  }
 
+  await installPrompt.prompt();
+  await installPrompt.userChoice;
+  setInstallPrompt(null);
+}}
+  style={{
+    marginTop: "16px",
+    padding: "12px 16px",
+    borderRadius: "12px",
+    border: "none",
+    background: "#facc15",
+    color: "#111827",
+    fontWeight: 900,
+    cursor: "pointer",
+  }}
+>
+  Instalar app
+</button>
         {featuredMatch && (
           <div
             style={{

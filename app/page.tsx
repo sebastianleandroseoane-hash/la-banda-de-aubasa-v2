@@ -230,6 +230,96 @@ function buildGroupTable(
     return a.team.localeCompare(b.team, "es");
   });
 }
+const gruposData = [
+  {
+    nombre: "Grupo A",
+    equipos: [
+      "Sutpa Pilar",
+      "Hudson F.C",
+      "Banda de Aubasa",
+      "Guidoneta",
+    ],
+    resultados: [
+      {
+        local: "Sutpa Pilar",
+        golesLocal: 0,
+        visitante: "Hudson F.C",
+        golesVisitante: 1,
+      },
+      {
+        local: "Banda de Aubasa",
+        golesLocal: 0,
+        visitante: "Guidoneta",
+        golesVisitante: 1,
+      },
+      {
+        local: "Hudson F.C",
+        golesLocal: 1,
+        visitante: "Guidoneta",
+        golesVisitante: 1,
+      },
+      {
+        local: "Sutpa Pilar",
+        golesLocal: 0,
+        visitante: "Banda de Aubasa",
+        golesVisitante: 5,
+      },
+    ],
+  },
+  {
+    nombre: "Grupo B",
+    equipos: [
+      "Obrador 202",
+      "Dep. Riccheri",
+      "El Docke",
+      "El Oeste",
+    ],
+    resultados: [
+      {
+        local: "Obrador 202",
+        golesLocal: 1,
+        visitante: "Dep. Riccheri",
+        golesVisitante: 2,
+      },
+      {
+        local: "El Docke",
+        golesLocal: 0,
+        visitante: "El Oeste",
+        golesVisitante: 5,
+      },
+      {
+        local: "Dep. Riccheri",
+        golesLocal: 0,
+        visitante: "El Oeste",
+        golesVisitante: 1,
+      },
+      {
+        local: "Obrador 202",
+        golesLocal: 7,
+        visitante: "El Docke",
+        golesVisitante: 2,
+      },
+    ],
+  },
+  {
+    nombre: "Grupo C",
+    equipos: ["Flavioneta", "Croacia", "Obrador Ruta 4"],
+    resultados: [
+      {
+        local: "Flavioneta",
+        golesLocal: 1,
+        visitante: "Croacia",
+        golesVisitante: 1,
+      },
+      {
+        local: "Flavioneta",
+        golesLocal: 0,
+        visitante: "Obrador Ruta 4",
+        golesVisitante: 1,
+      },
+    ],
+  },
+];
 export default function Home() {
   const [screen, setScreen] = useState<
     | "inicio"
@@ -2251,67 +2341,7 @@ useEffect(() => {
       gap: "18px",
     }}
   >
-    {[
-      {
-        nombre: "Grupo A",
-        equipos: [
-          "Sutpa Pilar",
-          "Hudson F.C",
-          "Banda de Aubasa",
-          "Guidoneta",
-        ],
-        resultados: [
-          {
-            local: "Sutpa Pilar",
-            golesLocal: 0,
-            visitante: "Hudson F.C",
-            golesVisitante: 1,
-          },
-          {
-            local: "Banda de Aubasa",
-            golesLocal: 0,
-            visitante: "Guidoneta",
-            golesVisitante: 1,
-          },
-        ],
-      },
-      {
-        nombre: "Grupo B",
-        equipos: [
-          "Obrador 202",
-          "Dep. Riccheri",
-          "El Docke",
-          "El Oeste",
-        ],
-        resultados: [
-          {
-            local: "Obrador 202",
-            golesLocal: 1,
-            visitante: "Dep. Riccheri",
-            golesVisitante: 2,
-          },
-          {
-            local: "El Docke",
-            golesLocal: 0,
-            visitante: "El Oeste",
-            golesVisitante: 5,
-          },
-        ],
-      },
-      {
-        nombre: "Grupo C",
-        equipos: ["Flavioneta", "Croacia", "Obrador Ruta 4"],
-        resultados: [
-          {
-            local: "Flavioneta",
-            golesLocal: 1,
-            visitante: "Croacia",
-            golesVisitante: 1,
-          },
-        ],
-        libre: "Obrador Ruta 4",
-      },
-    ].map((grupo) => (
+    {gruposData.map((grupo) => (
       <div
         key={grupo.nombre}
         style={{
@@ -2526,7 +2556,7 @@ useEffect(() => {
             );
           })}
 
-          {"libre" in grupo && grupo.libre && (
+          {"libre" in grupo && (grupo as any).libre && (
             <div
               style={{
                 padding: "12px 14px",
@@ -2537,7 +2567,7 @@ useEffect(() => {
                 color: "#cbd5e1",
               }}
             >
-              Libre: {grupo.libre}
+             Libre: {(grupo as any).libre}
             </div>
           )}
         </div>

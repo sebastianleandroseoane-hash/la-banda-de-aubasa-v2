@@ -1455,72 +1455,73 @@ useEffect(() => {
         </div>
       )}
 
-      {/* =========================
-          PANTALLA VIDEOS / VIVO
-      ========================= */}
-      {screen === "videos" && (
-        <div ref={contentRef} style={{ display: "grid", gap: "20px" }}>
-          <div
-            style={{
-              border: "1px solid rgba(255,255,255,0.08)",
-              padding: "24px",
-              background:
-                "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.8)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
-              borderRadius: "22px",
-            }}
-          >
-            <h2 style={{ marginTop: 0 }}>Videos / vivo</h2>
+     {/* =========================
+    PANTALLA VIDEOS / VIVO
+========================= */}
+{screen === "videos" && (
+  <div ref={contentRef} style={{ display: "grid", gap: "20px" }}>
+    <div
+      style={{
+        border: "1px solid rgba(255,255,255,0.08)",
+        padding: "24px",
+        background:
+          "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.8)), repeating-linear-gradient(90deg, #14532d 0px, #14532d 80px, #166534 80px, #166534 160px)",
+        borderRadius: "22px",
+      }}
+    >
+      <h2 style={{ marginTop: 0 }}>Videos / vivo</h2>
 
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <a
-                href={liveUrl}
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  padding: "14px 20px",
-                  borderRadius: "16px",
-                  textDecoration: "none",
-                  fontWeight: 900,
-                  background: "#dc2626",
-                  color: "#fff",
-                }}
-              >
-                Ver vivo
-              </a>
+      <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+        <a
+          href={liveUrl}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            padding: "14px 20px",
+            borderRadius: "16px",
+            textDecoration: "none",
+            fontWeight: 900,
+            background: "#ef4444",
+            color: "#fff",
+          }}
+        >
+          Ver vivo
+        </a>
 
-              <a
-  href={recordedVideosUrl}
-  target="_blank"
-  rel="noreferrer"
-  style={{
-    padding: "14px 20px",
-    borderRadius: "16px",
-    textDecoration: "none",
-    fontWeight: 900,
-    background: "#facc15",
-    color: "#111827",
-  }}
->
-  Ver videos grabados
-</a>
-<a
-  href={channelUrl}
-  target="_blank"
-  rel="noreferrer"
-  style={{
-    padding: "14px 20px",
-    borderRadius: "16px",
-    textDecoration: "none",
-    fontWeight: 900,
-    background: "#22c55e",
-    color: "#052e16",
-  }}
->
-  Ver canal
-</a>
-</div>
-</div>
-</div>
+        <a
+          href={recordedVideosUrl}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            padding: "14px 20px",
+            borderRadius: "16px",
+            textDecoration: "none",
+            fontWeight: 900,
+            background: "#facc15",
+            color: "#111827",
+          }}
+        >
+          Ver videos grabados
+        </a>
+
+        <a
+          href={channelUrl}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            padding: "14px 20px",
+            borderRadius: "16px",
+            textDecoration: "none",
+            fontWeight: 900,
+            background: "#22c55e",
+            color: "#052e16",
+          }}
+        >
+          Ver canal
+        </a>
+      </div>
+    </div>
+  </div>
 )}
       {/* =========================
           PANTALLA PARTIDOS
@@ -2417,9 +2418,9 @@ useEffect(() => {
               <div
                 key={row.team}
                 style={{
-                  display: "grid",
-                  gridTemplateColumns:
-                    "32px minmax(110px, 1fr) 32px 32px 32px 32px 32px 32px 32px 40px",
+  display: "grid",
+  gridTemplateColumns:
+    "44px minmax(140px, 1fr) 44px 44px 44px 44px 44px 44px 44px 52px",
                   gap: "6px",
                   alignItems: "center",
                   padding: "12px 8px",

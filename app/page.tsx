@@ -275,7 +275,7 @@ const gruposData = [
       "El Oeste",
     ],
     resultados: [
-      {
+       {
         local: "Obrador 202",
         golesLocal: 1,
         visitante: "Dep. Riccheri",

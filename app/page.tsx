@@ -2507,14 +2507,26 @@ useEffect(() => {
             Resultados
           </div>
 
-          {grupo.resultados.map((partido, index) => {
-            const participaAubasa =
-              partido.local === "Banda de Aubasa" ||
-              partido.visitante === "Banda de Aubasa";
+          {grupo.resultados
+            .filter(
+              (partido, index, self) =>
+                index ===
+                self.findIndex(
+                  (x) =>
+                    x.local === partido.local &&
+                    x.visitante === partido.visitante &&
+                    x.golesLocal === partido.golesLocal &&
+                    x.golesVisitante === partido.golesVisitante
+                )
+            )
+            .map((partido, index) => {
+              const participaAubasa =
+                partido.local === "Banda de Aubasa" ||
+                partido.visitante === "Banda de Aubasa";
 
-            return (
-              <div
-                key={`${grupo.nombre}-${index}`}
+              return (
+                <div
+                  key={`${grupo.nombre}-${index}`}
                 style={{
                   padding: "14px 16px",
                   borderRadius: "16px",

@@ -2636,12 +2636,12 @@ useEffect(() => {
         }}
       >
         {[
-          "20:45 · Sutpa Pilar vs Banda de Aubasa",
-          "20:45 · Obrador 202 vs El Docke",
-          "22:00 · Dep. Riccheri vs El Oeste",
-          "22:00 · Flavioneta vs Obrador Ruta 4",
-          "23:00 · Hudson F.C vs Guidoneta",
-        ].map((partido) => (
+  "21:00 · El Oeste vs Obrador 202",
+  "21:00 · Obrador Ruta 4 vs Croacia",
+  "22:00 · Hudson F.C vs Banda de Aubasa",
+  "22:00 · Sutpa Pilar vs Guidoneta",
+  "23:00 · El Docke vs Dep. Riccheri",
+].map((partido) => (
           <div
             key={partido}
             style={{

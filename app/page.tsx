@@ -2625,7 +2625,7 @@ useEffect(() => {
           marginBottom: "6px",
         }}
       >
-        Miércoles 25/04
+        Miércoles 01/04
       </div>
 
       <div
